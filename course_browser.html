@@ -1,0 +1,1790 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Training Course Browser</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        /* Scoped styles for course browser widget */
+        .course-browser-widget {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: white;
+            box-sizing: border-box;
+        }
+
+        .course-browser-widget *,
+        .course-browser-widget *::before,
+        .course-browser-widget *::after {
+            box-sizing: border-box;
+        }
+
+        .course-browser-widget .container {
+            max-width: 100%;
+            margin: 0 auto;
+            background: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .course-browser-widget .header {
+            background: #002147;
+            color: white;
+            padding: 20px 30px;
+            text-align: center;
+            display: none;
+        }
+
+        .course-browser-widget .header h1 {
+            font-size: 1.6em;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .course-browser-widget .header p {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        .course-browser-widget .main-content {
+            display: flex;
+            min-height: 500px;
+            max-height: 600px;
+        }
+
+        .course-browser-widget .sidebar {
+            width: 250px;
+            background: #f8f9fa;
+            padding: 20px;
+            border-right: 1px solid #e0e0e0;
+            overflow-y: auto;
+            max-height: 600px;
+            transition: width 0.3s ease, padding 0.3s ease;
+        }
+
+        .course-browser-widget .sidebar.collapsed {
+            width: 50px;
+            padding: 20px 10px;
+        }
+
+        .course-browser-widget .sidebar.collapsed .filter-section {
+            display: none;
+        }
+
+        .course-browser-widget .collapse-btn {
+            background: #002147;
+            color: white;
+            border: none;
+            padding: 8px;
+            width: 100%;
+            cursor: pointer;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            font-size: 0.85em;
+            transition: background 0.2s ease;
+        }
+
+        .course-browser-widget .collapse-btn:hover {
+            background: #001a38;
+        }
+
+        .course-browser-widget .filter-section {
+            margin-bottom: 20px;
+        }
+
+        .course-browser-widget .filter-section h3 {
+            font-size: 0.9em;
+            color: #002147;
+            margin-bottom: 10px;
+            padding-bottom: 6px;
+            border-bottom: 2px solid #002147;
+            font-weight: 600;
+        }
+
+        .course-browser-widget .filter-option {
+            display: flex;
+            align-items: center;
+            padding: 6px 10px;
+            margin: 4px 0;
+            background: white;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 2px solid transparent;
+        }
+
+        .course-browser-widget .filter-option:hover {
+            background: #f0f0f0;
+            transform: translateX(3px);
+        }
+
+        .course-browser-widget .filter-option.active {
+            background: #002147;
+            color: white;
+            border-color: #001a38;
+        }
+
+        .course-browser-widget .filter-option input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            margin-right: 8px;
+            cursor: pointer;
+            accent-color: #002147;
+        }
+
+        .course-browser-widget .filter-option label {
+            cursor: pointer;
+            flex-grow: 1;
+            font-size: 0.85em;
+        }
+
+        .course-browser-widget .courses-area {
+            flex: 1;
+            padding: 0;
+            overflow-y: auto;
+            max-height: 600px;
+        }
+
+        .course-browser-widget .tabs {
+            display: flex;
+            background: #f8f9fa;
+            border-bottom: 2px solid #e0e0e0;
+            padding: 0 20px;
+        }
+
+        .course-browser-widget .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            border: none;
+            background: none;
+            font-size: 0.9em;
+            font-weight: 500;
+            color: #666;
+            border-bottom: 3px solid transparent;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .course-browser-widget .tab:hover {
+            color: #002147;
+            background: rgba(0, 33, 71, 0.05);
+        }
+
+        .course-browser-widget .tab.active {
+            color: #002147;
+            border-bottom-color: #002147;
+            background: white;
+        }
+
+        .course-browser-widget .bookmark-count {
+            display: inline-block;
+            background: #002147;
+            color: white;
+            border-radius: 12px;
+            padding: 2px 8px;
+            font-size: 0.85em;
+            margin-left: 6px;
+            min-width: 20px;
+            text-align: center;
+        }
+
+        .course-browser-widget .pathway-card {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .course-browser-widget .pathway-card:hover {
+            border-color: #002147;
+            box-shadow: 0 3px 12px rgba(0, 33, 71, 0.15);
+        }
+
+        .course-browser-widget .pathway-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 10px;
+        }
+
+        .course-browser-widget .pathway-title {
+            font-size: 1.1em;
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .course-browser-widget .pathway-description {
+            color: #666;
+            font-size: 0.85em;
+            line-height: 1.4;
+            margin-bottom: 10px;
+        }
+
+        .course-browser-widget .pathway-badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.75em;
+            font-weight: 500;
+            background: #e8f5e9;
+            color: #388e3c;
+        }
+
+        .course-browser-widget .pathway-courses {
+            margin-top: 15px;
+        }
+
+        .course-browser-widget .pathway-course-item {
+            display: flex;
+            align-items: start;
+            padding: 10px;
+            margin-bottom: 8px;
+            background: #f8f9fa;
+            border-radius: 6px;
+            border-left: 3px solid #002147;
+            transition: all 0.2s ease;
+        }
+
+        .course-browser-widget .pathway-course-item:hover {
+            background: #e8eaf6;
+            transform: translateX(3px);
+        }
+
+        .course-browser-widget .pathway-step {
+            font-size: 1em;
+            font-weight: 600;
+            color: #002147;
+            margin-right: 12px;
+            min-width: 25px;
+        }
+
+        .course-browser-widget .pathway-course-content {
+            flex: 1;
+        }
+
+        .course-browser-widget .pathway-course-title {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 4px;
+            font-size: 0.9em;
+        }
+
+        .course-browser-widget .pathway-course-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 6px;
+        }
+
+        .course-browser-widget .custom-pathway-builder {
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            border: 2px dashed #4caf50;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .course-browser-widget .custom-pathway-builder h3 {
+            color: #2e7d32;
+            margin-bottom: 6px;
+            font-size: 1em;
+        }
+
+        .course-browser-widget .custom-pathway-builder p {
+            color: #558b2f;
+            margin-bottom: 10px;
+            font-size: 0.85em;
+        }
+
+        .course-browser-widget .btn-create-pathway {
+            background: #4caf50;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 0.85em;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .course-browser-widget .btn-create-pathway:hover {
+            background: #45a049;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+        }
+
+        .course-browser-widget .btn-create-pathway:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .course-browser-widget .pathway-form {
+            background: white;
+            border: 2px solid #4caf50;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 25px;
+            display: none;
+        }
+
+        .course-browser-widget .pathway-form.active {
+            display: block;
+        }
+
+        .course-browser-widget .pathway-form h3 {
+            color: #2e7d32;
+            margin-bottom: 20px;
+        }
+
+        .course-browser-widget .form-group {
+            margin-bottom: 20px;
+        }
+
+        .course-browser-widget .form-group label {
+            display: block;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .course-browser-widget .form-group input,
+        .course-browser-widget .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1em;
+            font-family: inherit;
+            transition: border-color 0.2s ease;
+        }
+
+        .course-browser-widget .form-group input:focus,
+        .course-browser-widget .form-group textarea:focus {
+            outline: none;
+            border-color: #002147;
+        }
+
+        .course-browser-widget .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .course-browser-widget .form-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+
+        .course-browser-widget .btn-submit {
+            background: #4caf50;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .course-browser-widget .btn-submit:hover {
+            background: #45a049;
+        }
+
+        .course-browser-widget .btn-cancel {
+            background: #f44336;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .course-browser-widget .btn-cancel:hover {
+            background: #d32f2f;
+        }
+
+        .course-browser-widget .selected-courses {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .course-browser-widget .selected-courses h4 {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+
+        .course-browser-widget .selected-course-item {
+            padding: 8px 12px;
+            background: white;
+            border-left: 3px solid #4caf50;
+            margin-bottom: 6px;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+
+        .course-browser-widget .pathway-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .course-browser-widget .btn-export {
+            background: #2196f3;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 0.9em;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .course-browser-widget .btn-export:hover {
+            background: #1976d2;
+        }
+
+        .course-browser-widget .btn-reorder {
+            background: #ff9800;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 0.9em;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .course-browser-widget .btn-reorder:hover {
+            background: #f57c00;
+        }
+
+        .course-browser-widget .btn-delete-pathway {
+            background: #f44336;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 0.9em;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .course-browser-widget .btn-delete-pathway:hover {
+            background: #d32f2f;
+        }
+
+        .course-browser-widget .reorder-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            margin-left: 10px;
+        }
+
+        .course-browser-widget .btn-move {
+            background: #002147;
+            color: white;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8em;
+            cursor: pointer;
+            min-width: 50px;
+        }
+
+        .course-browser-widget .btn-move:hover {
+            background: #001a38;
+        }
+
+        .course-browser-widget .btn-move:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .course-browser-widget .tab-content {
+            padding: 20px;
+        }
+
+        .course-browser-widget .tab-panel {
+            display: none;
+        }
+
+        .course-browser-widget .tab-panel.active {
+            display: block;
+        }
+
+        .course-browser-widget .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .course-browser-widget .results-count {
+            font-size: 1em;
+            color: #666;
+        }
+
+        .course-browser-widget .clear-filters {
+            padding: 8px 16px;
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85em;
+            transition: background 0.2s ease;
+        }
+
+        .course-browser-widget .clear-filters:hover {
+            background: #ee5a52;
+        }
+
+        .course-browser-widget .course-card {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 12px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .course-browser-widget .course-card:hover {
+            border-color: #002147;
+            box-shadow: 0 3px 12px rgba(0, 33, 71, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .course-browser-widget .bookmark-btn {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            padding: 4px 8px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.2s ease;
+        }
+
+        .course-browser-widget .bookmark-btn:hover {
+            background: #f8f9fa;
+            transform: scale(1.1);
+        }
+
+        .course-browser-widget .bookmark-btn.bookmarked {
+            background: #ffd700;
+            border-color: #ffc700;
+        }
+
+        .course-browser-widget .course-title {
+            font-size: 1.1em;
+            color: #CE0F69;
+            margin-bottom: 10px;
+            font-weight: 600;
+            padding-right: 40px;
+        }
+
+        .course-browser-widget .course-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 10px;
+        }
+
+        .course-browser-widget .meta-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.75em;
+            font-weight: 500;
+        }
+
+
+        .course-browser-widget .badge-theme {
+            background: #f3e5f5;
+            color: #6a1b9a;
+        }
+
+        .course-browser-widget .badge-experience {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .course-browser-widget .badge-format {
+            background: #fff3e0;
+            color: #e65100;
+        }
+
+        .course-browser-widget .badge-audience {
+            background: #fce4ec;
+            color: #ad1457;
+        }
+
+        .course-browser-widget .course-tags {
+            margin-top: 8px;
+            padding-top: 8px;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .course-browser-widget .course-tags-label {
+            font-size: 0.75em;
+            color: #666;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .course-browser-widget .course-tags-content {
+            font-size: 0.8em;
+            color: #555;
+            line-height: 1.4;
+        }
+
+        .course-browser-widget .course-date {
+            background: #f0f4ff;
+            border-left: 3px solid #002147;
+            padding: 8px 12px;
+            margin: 10px 0;
+            font-size: 0.85em;
+            color: #002147;
+            border-radius: 4px;
+        }
+
+        .course-browser-widget .course-link {
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .course-browser-widget .course-link-btn {
+            display: inline-block;
+            background: #002147;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 0.85em;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .course-browser-widget .course-link-btn:hover {
+            background: #CE0F69;
+            transform: translateX(3px);
+        }
+
+        .course-browser-widget .no-results {
+            text-align: center;
+            padding: 60px 20px;
+            color: #999;
+        }
+
+        .course-browser-widget .no-results h2 {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .course-browser-widget .no-results p {
+            font-size: 1.1em;
+        }
+
+        @media (max-width: 768px) {
+            .course-browser-widget .main-content {
+                flex-direction: column;
+            }
+
+            .course-browser-widget .sidebar {
+                width: 100%;
+                border-right: none;
+                border-bottom: 1px solid #e0e0e0;
+                max-height: 300px;
+            }
+
+            .course-browser-widget .courses-area {
+                max-height: 400px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="course-browser-widget">
+    <div class="container">
+        <div class="header">
+            <h1>AI Training Course Browser</h1>
+            <p>Filter and discover the perfect AI training course for your needs</p>
+        </div>
+
+        <div class="main-content">
+            <aside class="sidebar" id="filter-sidebar">
+                <button class="collapse-btn" id="collapse-filters-btn" onclick="toggleFilters()" title="Hide filters">◀</button>
+                
+                <div class="filter-section">
+                    <h3>Theme</h3>
+                    <div id="theme-filters"></div>
+                </div>
+
+                <div class="filter-section">
+                    <h3>AI Experience</h3>
+                    <div id="experience-filters"></div>
+                </div>
+
+                <div class="filter-section">
+                    <h3>Format</h3>
+                    <div id="format-filters"></div>
+                </div>
+
+                <div class="filter-section">
+                    <h3>Audience</h3>
+                    <div id="audience-filters"></div>
+                </div>
+            </aside>
+
+            <main class="courses-area">
+                <div class="tabs">
+                    <button class="tab active" id="all-tab" onclick="switchTab('all')">
+                        All Courses
+                    </button>
+                    <button class="tab" id="bookmarks-tab" onclick="switchTab('bookmarks')">
+                        Bookmarks <span class="bookmark-count" id="bookmark-count">0</span>
+                    </button>
+                    <button class="tab" id="pathways-tab" onclick="switchTab('pathways')">
+                        Learning Pathways
+                    </button>
+                </div>
+
+                <div class="tab-content">
+                    <div id="all-panel" class="tab-panel active">
+                        <div class="results-header">
+                            <div class="results-count" id="results-count">Loading courses...</div>
+                            <button class="clear-filters" id="clear-filters">Clear All Filters</button>
+                        </div>
+                        <div id="courses-container">
+                            <div class="no-results">
+                                <h2>Loading...</h2>
+                                <p>Please wait while we load the courses</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="bookmarks-panel" class="tab-panel">
+                        <div class="results-header">
+                            <div class="results-count" id="bookmarks-count">No bookmarks yet</div>
+                        </div>
+                        <div id="bookmarks-container">
+                            <div class="no-results">
+                                <h2>No bookmarks yet</h2>
+                                <p>Click the ⭐ button on any course to bookmark it</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="pathways-panel" class="tab-panel">
+                        <div class="results-header">
+                            <div class="results-count">Learning Pathways</div>
+                        </div>
+                        <div id="pathways-container"></div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        // Course data embedded directly
+        const coursesData = [
+            {
+                "title": "Your First Steps with ChatGPT: Introductory Training for Everyone",
+                "theme": "General AI",
+                "experience": "Level 1: Never used AI",
+                "format": "Online or In Person",
+                "audience": "All",
+                "tags": "AI confidence & literacy; Practical tool proficiency; Critical Evaluation of AI outputs; Security and Privacy Awareness; AI for All",
+                "date": "Multiple dates available",
+                "link": "https://oerc.ox.ac.uk/ai-centre/training-events/workshops-and-webinars/your-first-steps-with-chatgpt"
+            },
+            {
+                "title": "Next Steps with ChatGPT: Advanced Tools and Features",
+                "theme": "General AI",
+                "experience": "Level 2: Sometimes use AI",
+                "format": "Online or In Person",
+                "audience": "All",
+                "tags": "AI confidence & literacy; Practical tool proficiency; Prompting and prompt workflows; Critical evaluation of AI outputs; security and Privacy Awareness; AI for All",
+                "date": "Multiple dates available",
+                "link": "https://oerc.ox.ac.uk/ai-centre/training-events/workshops-and-webinars/next-steps-with-chatgpt"
+            },
+            {
+                "title": "Making Good Learning Decisions with Generative AI",
+                "theme": "Teaching & Education",
+                "experience": "Level 1: Never used AI",
+                "format": "Online or In Person",
+                "audience": "Students",
+                "tags": "AI confidence & literacy; Practical tool proficiency",
+                "date": "Multiple dates available",
+                "link": "https://oerc.ox.ac.uk/ai-centre/training-events/workshops-and-webinars/student-training"
+            },
+            {
+                "title": "Intro to Generative AI: Hands-on session",
+                "theme": "General AI",
+                "experience": "Level 1: Never used AI",
+                "format": "In Person",
+                "audience": "All",
+                "tags": "AI Confidence and Literacy; Practical tool proficiency",
+                "date": "On demand",
+                "link": "https://oerc.ox.ac.uk/ai-centre/training-events/workshops-and-webinars/intro-to-generative-ai-hands-on-session"
+            },
+            {
+                "title": "Mapping the Landscape: Introduction to Coding with AI for Everyone: Empowering Non-Programmers to Create with AI",
+                "theme": "Coding & Development",
+                "experience": "Level 2: Sometimes use AI",
+                "format": "Online",
+                "audience": "All",
+                "tags": "Practical tool proficiency; prompting and prompt workflows; Critical evaluation of AI outputs; security and Privacy Awareness; AI for All",
+                "date": "27 January 2026, 12:30 - 13:30",
+                "link": "https://oerc.ox.ac.uk/ai-centre/ai-centre-trainings/mapping-the-landscape-introduction-to-coding-with-ai-for-everyone"
+            },
+            {
+                "title": "Introduction to Open Source and Local AI Models: Running AI Locally from Laptops to Servers",
+                "theme": "Research",
+                "experience": "Level 3: use AI",
+                "format": "Online",
+                "audience": "Researchers",
+                "tags": "Practical tool proficiency; AI for researchers",
+                "date": "10 February 2026, 12:30 - 13:30",
+                "link": "https://oerc.ox.ac.uk/ai-centre/ai-centre-trainings/introduction-to-open-source-and-local-ai-models"
+            },
+            {
+                "title": "Mapping the Landscape: Understanding AI Agents and Agentic Workflows",
+                "theme": "General AI",
+                "experience": "Level 2: Sometimes use AI",
+                "format": "Online or In Person",
+                "audience": "All",
+                "tags": "AI confidence and literacy; practical tool proficiency",
+                "date": "3 March 2026, 12:30 - 13:30",
+                "link": "https://oerc.ox.ac.uk/ai-centre/ai-centre-trainings/mapping-the-landscape-understanding-ai-agents"
+            },
+            {
+                "title": "Building Large Language Model Powered Chatbots with Microsoft tools",
+                "theme": "Coding & Development",
+                "experience": "Level 2: Sometimes use AI",
+                "format": "Online or In Person",
+                "audience": "All",
+                "tags": "Practical tool proficiency; Prompting and prompt workflows; AI for all; Responsible Use; Critical evaluation",
+                "date": "3 February 2026, 10:00 - 11:00",
+                "link": "https://oerc.ox.ac.uk/ai-centre/ai-centre-trainings/building-large-language-model-powered-chatbots-with-microsoft-tools"
+            },
+            {
+                "title": "Thinking About Thinking with AI: Why Self-Knowledge is Your Real Interface",
+                "theme": "Operations & Admin",
+                "experience": "Open to All",
+                "format": "Online or In Person",
+                "audience": "All",
+                "tags": "",
+                "date": "5 February 2026, 11:00 - 12:30",
+                "link": "https://oerc.ox.ac.uk/ai-centre/ai-centre-trainings/thinking-about-thinking-with-ai-why-self-knowledge-is-your-real-interface"
+            },
+            {
+                "title": "10 Truths About AI That Will Stand the Test of Time",
+                "theme": "General AI",
+                "experience": "Open to All",
+                "format": "Online or In Person",
+                "audience": "All",
+                "tags": "",
+                "date": "12 February 2026, 11:00 - 12:00",
+                "link": "https://oerc.ox.ac.uk/ai-centre/ai-centre-trainings/10-truths-about-ai-that-will-stand-the-test-of-time"
+            },
+            {
+                "title": "Revealing Unknown Unknowns: How to Use ChatGPT as a Strategic Mirror",
+                "theme": "Operations & Admin",
+                "experience": "Level 2: Sometimes use AI",
+                "format": "Online or In Person",
+                "audience": "All",
+                "tags": "",
+                "date": "19 February 2026, 14:00 - 15:00",
+                "link": "https://oerc.ox.ac.uk/ai-centre/ai-centre-trainings/revealing-unknown-unknowns"
+            },
+            {
+                "title": "Building a relationship with AI",
+                "theme": "General AI",
+                "experience": "Level 2: Sometimes use AI",
+                "format": "Online or In Person",
+                "audience": "All",
+                "tags": "",
+                "date": "12 March 2026, 11:00 - 12:00",
+                "link": "https://oerc.ox.ac.uk/ai-centre/ai-centre-trainings/building-a-relationship-with-ai"
+            },
+            {
+                "title": "AI in the Writing Process: Rethinking Authorship and Assessment",
+                "theme": "Teaching & Education",
+                "experience": "Level 2: Sometimes use AI",
+                "format": "Online or In Person",
+                "audience": "Educators",
+                "tags": "",
+                "date": "29 January 2026, 14:00 - 15:30; 24 February 2026, 14:00 - 15:30",
+                "link": "https://oerc.ox.ac.uk/ai-centre/ai-centre-trainings/ai-in-the-writing-process-rethinking-authorship-and-assessment"
+            },
+            {
+                "title": "Beyond Detection: Navigating AI Tools and Ethical Practice in Education",
+                "theme": "Teaching & Education",
+                "experience": "Level 2: Sometimes use AI",
+                "format": "Online or In Person",
+                "audience": "Educators",
+                "tags": "",
+                "date": "3 February 2026, 14:00 - 15:30; 2 March 2026, 11:00 - 12:30",
+                "link": "https://oerc.ox.ac.uk/ai-centre/ai-centre-trainings/beyond-detection-navigating-ai-tools-and-ethical-practice-in-education"
+            },
+            {
+                "title": "From Zero to App Development with Generative AI",
+                "theme": "Coding & Development",
+                "experience": "Level 2: Sometimes use AI",
+                "format": "Online or In Person",
+                "audience": "All",
+                "tags": "AI for Educators",
+                "date": "15 January 2026, 11:00 - 12:30; 12 February 2026, 13:00 - 14:30",
+                "link": "https://oerc.ox.ac.uk/ai-centre/ai-centre-trainings/from-zero-to-app-development-with-generative-ai"
+            },
+            {
+                "title": "Intelligent AI Agents at Work: Transforming Content Analysis with IntelliDoc - A Hands-On Guide for Oxford Academics",
+                "theme": "Research",
+                "experience": "Level 2: Sometimes use AI",
+                "format": "Online or In Person",
+                "audience": "Researchers",
+                "tags": "",
+                "date": "21 January 2026, 13:00 - 14:00",
+                "link": "https://oerc.ox.ac.uk/ai-centre/ai-centre-trainings/intelligent-ai-agents-at-work-transforming-content-analysis-with-intellidoc-a-hands-on-guide-for-oxford-academics-and-researchers"
+            },
+            {
+                "title": "AI and Research: From Personal Productivity to Building Your Own Tools",
+                "theme": "Research",
+                "experience": "Level 2: Sometimes use AI",
+                "format": "Online or In Person",
+                "audience": "Researchers",
+                "tags": "",
+                "date": "16 January 2026 (all day); 23 January 2026 (all day)",
+                "link": "https://oerc.ox.ac.uk/ai-centre/ai-centre-trainings/ai-for-researchers"
+            },
+            {
+                "title": "Getting Started on Your AI Journey in Operations (Part 1: Understanding the Basics)",
+                "theme": "Operations & Admin",
+                "experience": "Level 1: Never used AI",
+                "format": "Online or In Person",
+                "audience": "Staff Admin",
+                "tags": "",
+                "date": "On demand",
+                "link": "https://oerc.ox.ac.uk/ai-centre/training-events"
+            },
+            {
+                "title": "Getting Started on Your AI Journey in Operations (Part 2: Using the Tools Effectively)",
+                "theme": "Operations & Admin",
+                "experience": "Level 2: Sometimes use AI",
+                "format": "Online or In Person",
+                "audience": "Staff Admin",
+                "tags": "",
+                "date": "On demand",
+                "link": "https://oerc.ox.ac.uk/ai-centre/training-events"
+            },
+            {
+                "title": "Getting Started on Your AI Journey in Operations (Part 3: Applying AI to Your Work)",
+                "theme": "Operations & Admin",
+                "experience": "Level 2: Sometimes use AI",
+                "format": "Online or In Person",
+                "audience": "Staff Admin",
+                "tags": "",
+                "date": "On demand",
+                "link": "https://oerc.ox.ac.uk/ai-centre/training-events"
+            },
+            {
+                "title": "Gemini",
+                "theme": "General AI",
+                "experience": "Level 1: Never used AI",
+                "format": "Online or In Person",
+                "audience": "All",
+                "tags": "AI confidence and literacy; practical tool proficiency. Practical tool proficiency; prompting and prompt workflows; AI for all. Responsible Use; Critical evaluation",
+                "date": "On demand",
+                "link": "https://oerc.ox.ac.uk/ai-centre/training-events"
+            },
+            {
+                "title": "Online Presence and AI",
+                "theme": "General AI",
+                "experience": "Level 2: Sometimes use AI",
+                "format": "Online or In Person",
+                "audience": "Researchers",
+                "tags": "Research productivity with AI; Prompting & prompt workflows; AI confidence & literacy",
+                "date": "On demand",
+                "link": "https://oerc.ox.ac.uk/ai-centre/training-events"
+            }
+        ];
+
+        // State management
+        const filters = {
+            theme: new Set(),
+            experience: new Set(),
+            format: new Set(),
+            audience: new Set()
+        };
+
+        let bookmarks = new Set();
+        let currentTab = 'all';
+        let customPathways = [];
+
+        // Pre-generated learning pathways based on common journeys
+        const preGeneratedPathways = [
+            {
+                id: 'beginner-ai',
+                title: 'Complete Beginner to AI User',
+                description: 'Perfect for those who have never used AI before. Start with the basics and build confidence.',
+                type: 'pre-generated',
+                courses: [
+                    'Your First Steps with ChatGPT: Introductory Training for Everyone',
+                    'Intro to Generative AI: Hands-on session',
+                    'Next Steps with ChatGPT: Advanced Tools and Features',
+                    'Gemini'
+                ]
+            },
+            {
+                id: 'educator-journey',
+                title: 'AI for Educators',
+                description: 'Learn how to integrate AI into your teaching practice ethically and effectively.',
+                type: 'pre-generated',
+                courses: [
+                    'Your First Steps with ChatGPT: Introductory Training for Everyone',
+                    'Making Good Learning Decisions with Generative AI',
+                    'AI in the Writing Process: Rethinking Authorship and Assessment',
+                    'Beyond Detection: Navigating AI Tools and Ethical Practice in Education',
+                    'From Zero to App Development with Generative AI'
+                ]
+            },
+            {
+                id: 'researcher-track',
+                title: 'AI for Research Excellence',
+                description: 'Harness AI tools to enhance your research productivity and capabilities.',
+                type: 'pre-generated',
+                courses: [
+                    'Next Steps with ChatGPT: Advanced Tools and Features',
+                    'Introduction to Open Source and Local AI Models: Running AI Locally from Laptops to Servers',
+                    'AI and Research: From Personal Productivity to Building Your Own Tools',
+                    'Intelligent AI Agents at Work: Transforming Content Analysis with IntelliDoc - A Hands-On Guide for Oxford Academics',
+                    'Online Presence and AI'
+                ]
+            },
+            {
+                id: 'operations-staff',
+                title: 'AI for Operations & Admin Staff',
+                description: 'Learn practical AI applications to streamline your daily operations and administrative tasks.',
+                type: 'pre-generated',
+                courses: [
+                    'Getting Started on Your AI Journey in Operations (Part 1: Understanding the Basics)',
+                    'Getting Started on Your AI Journey in Operations (Part 2: Using the Tools Effectively)',
+                    'Getting Started on Your AI Journey in Operations (Part 3: Applying AI to Your Work)',
+                    'Thinking About Thinking with AI: Why Self-Knowledge is Your Real Interface'
+                ]
+            },
+            {
+                id: 'technical-deep-dive',
+                title: 'Technical AI Mastery',
+                description: 'For those ready to dive deep into technical AI implementations and custom solutions.',
+                type: 'pre-generated',
+                courses: [
+                    'Mapping the Landscape: Introduction to Coding with AI for Everyone: Empowering Non-Programmers to Create with AI',
+                    'Building Large Language Model Powered Chatbots with Microsoft tools',
+                    'From Zero to App Development with Generative AI',
+                    'Introduction to Open Source and Local AI Models: Running AI Locally from Laptops to Servers'
+                ]
+            },
+            {
+                id: 'strategic-leadership',
+                title: 'Strategic AI Leadership',
+                description: 'Develop strategic thinking about AI and understand its implications for decision-making.',
+                type: 'pre-generated',
+                courses: [
+                    'Thinking About Thinking with AI: Why Self-Knowledge is Your Real Interface',
+                    '10 Truths About AI That Will Stand the Test of Time',
+                    'Revealing Unknown Unknowns: How to Use ChatGPT as a Strategic Mirror',
+                    'Mapping the Landscape: Understanding AI Agents and Agentic Workflows'
+                ]
+            }
+        ];
+
+        // Load bookmarks from localStorage
+        function loadBookmarks() {
+            const saved = localStorage.getItem('courseBookmarks');
+            if (saved) {
+                bookmarks = new Set(JSON.parse(saved));
+            }
+        }
+
+        // Save bookmarks to localStorage
+        function saveBookmarks() {
+            localStorage.setItem('courseBookmarks', JSON.stringify([...bookmarks]));
+        }
+
+        // Load custom pathways from localStorage
+        function loadCustomPathways() {
+            const saved = localStorage.getItem('customPathways');
+            if (saved) {
+                customPathways = JSON.parse(saved);
+            }
+        }
+
+        // Save custom pathways to localStorage
+        function saveCustomPathways() {
+            localStorage.setItem('customPathways', JSON.stringify(customPathways));
+        }
+
+        // Toggle bookmark
+        function toggleBookmark(courseTitle, event) {
+            event.stopPropagation();
+            if (bookmarks.has(courseTitle)) {
+                bookmarks.delete(courseTitle);
+            } else {
+                bookmarks.add(courseTitle);
+            }
+            saveBookmarks();
+            updateBookmarkCount();
+            
+            // Refresh the current view
+            if (currentTab === 'bookmarks') {
+                renderBookmarks();
+            } else if (currentTab === 'all') {
+                applyFilters();
+            }
+        }
+
+        // Switch tabs
+        function switchTab(tabName) {
+            currentTab = tabName;
+            
+            // Update tab buttons
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            document.getElementById(`${tabName}-tab`).classList.add('active');
+            
+            // Update tab panels
+            document.querySelectorAll('.tab-panel').forEach(panel => panel.classList.remove('active'));
+            document.getElementById(`${tabName}-panel`).classList.add('active');
+            
+            // Render appropriate content
+            if (tabName === 'bookmarks') {
+                renderBookmarks();
+            } else if (tabName === 'pathways') {
+                renderPathways();
+            }
+        }
+
+        // Update bookmark count badge
+        function updateBookmarkCount() {
+            document.getElementById('bookmark-count').textContent = bookmarks.size;
+        }
+
+        // Render bookmarked courses
+        function renderBookmarks() {
+            const bookmarkedCourses = coursesData.filter(course => bookmarks.has(course.title));
+            const container = document.getElementById('bookmarks-container');
+            const countElement = document.getElementById('bookmarks-count');
+            
+            countElement.textContent = `${bookmarkedCourses.length} bookmarked course${bookmarkedCourses.length !== 1 ? 's' : ''}`;
+            
+            if (bookmarkedCourses.length === 0) {
+                container.innerHTML = `
+                    <div class="no-results">
+                        <h2>No bookmarks yet</h2>
+                        <p>Click the ⭐ button on any course to bookmark it</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = bookmarkedCourses.map(course => createCourseCard(course)).join('');
+        }
+
+        // Create a course card HTML
+        function createCourseCard(course) {
+            const isBookmarked = bookmarks.has(course.title);
+            return `
+                <div class="course-card">
+                    <button class="bookmark-btn ${isBookmarked ? 'bookmarked' : ''}" 
+                            onclick="toggleBookmark('${course.title.replace(/'/g, "\\'")}', event)"
+                            title="${isBookmarked ? 'Remove bookmark' : 'Add bookmark'}">
+                        ${isBookmarked ? '★' : '☆'}
+                    </button>
+                    <div class="course-title">${course.title}</div>
+                    ${course.date ? `
+                        <div class="course-date">
+                            <strong>📅 Date:</strong> ${course.date}
+                        </div>
+                    ` : ''}
+                    <div class="course-meta">
+                        ${course.theme ? `<span class="meta-badge badge-theme">${course.theme}</span>` : ''}
+                        ${course.experience ? `<span class="meta-badge badge-experience">${course.experience}</span>` : ''}
+                        ${course.format ? `<span class="meta-badge badge-format">${course.format}</span>` : ''}
+                        ${course.audience ? `<span class="meta-badge badge-audience">${course.audience}</span>` : ''}
+                    </div>
+                    ${course.tags ? `
+                        <div class="course-tags">
+                            <div class="course-tags-label">Skills & Topics:</div>
+                            <div class="course-tags-content">${course.tags}</div>
+                        </div>
+                    ` : ''}
+                    ${course.link ? `
+                        <div class="course-link">
+                            <a href="${course.link}" target="_blank" class="course-link-btn">View Course Details & Register →</a>
+                        </div>
+                    ` : ''}
+                </div>
+            `;
+        }
+
+        // Render pathways
+        function renderPathways() {
+            const container = document.getElementById('pathways-container');
+            const allPathways = [...preGeneratedPathways, ...customPathways];
+            
+            console.log('Rendering pathways, bookmarks size:', bookmarks.size);
+            console.log('Bookmarks:', [...bookmarks]);
+            
+            let html = '';
+            
+            // Add custom pathway builder button
+            html += `
+                <div class="custom-pathway-builder">
+                    <h3>Create Your Custom Pathway</h3>
+                    <p>Build a personalized learning path from your bookmarked courses</p>
+                    <p style="color: #2e7d32; font-weight: bold;">You have ${bookmarks.size} bookmarked course${bookmarks.size !== 1 ? 's' : ''}</p>
+                    <button class="btn-create-pathway" id="show-form-btn" type="button">
+                        ${bookmarks.size < 2 ? 'Bookmark at least 2 courses to create a pathway' : 'Create New Pathway'}
+                    </button>
+                </div>
+            `;
+
+            // Add pathway creation form (hidden by default)
+            const bookmarkedCourses = coursesData.filter(course => bookmarks.has(course.title));
+            html += `
+                <div class="pathway-form" id="pathway-form">
+                    <h3>Create Your Learning Pathway</h3>
+                    
+                    <div class="selected-courses">
+                        <h4>Selected Courses (${bookmarkedCourses.length}):</h4>
+                        ${bookmarkedCourses.map((course, idx) => `
+                            <div class="selected-course-item">${idx + 1}. ${course.title}</div>
+                        `).join('')}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="pathway-name">Pathway Name *</label>
+                        <input type="text" id="pathway-name" placeholder="e.g., My AI Learning Journey" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="pathway-description">Description (optional)</label>
+                        <textarea id="pathway-description" placeholder="Describe what this pathway is for..."></textarea>
+                    </div>
+
+                    <div class="form-actions">
+                        <button class="btn-cancel" id="cancel-form-btn" type="button">Cancel</button>
+                        <button class="btn-submit" id="submit-form-btn" type="button">Create Pathway</button>
+                    </div>
+                </div>
+            `;
+            
+            if (allPathways.length === 0) {
+                html += `
+                    <div class="no-results">
+                        <h2>No custom pathways yet</h2>
+                        <p>Create your first pathway from bookmarked courses!</p>
+                    </div>
+                `;
+            } else {
+                allPathways.forEach((pathway, index) => {
+                    html += renderPathwayCard(pathway, index);
+                });
+            }
+            
+            container.innerHTML = html;
+            
+            // Attach event listener to show form button
+            const showFormBtn = document.getElementById('show-form-btn');
+            const pathwayForm = document.getElementById('pathway-form');
+            const cancelBtn = document.getElementById('cancel-form-btn');
+            const submitBtn = document.getElementById('submit-form-btn');
+            
+            if (showFormBtn && bookmarks.size >= 2) {
+                showFormBtn.addEventListener('click', function() {
+                    pathwayForm.classList.add('active');
+                    showFormBtn.style.display = 'none';
+                });
+            } else if (showFormBtn) {
+                showFormBtn.disabled = true;
+            }
+            
+            if (cancelBtn) {
+                cancelBtn.addEventListener('click', function() {
+                    pathwayForm.classList.remove('active');
+                    showFormBtn.style.display = 'inline-block';
+                    document.getElementById('pathway-name').value = '';
+                    document.getElementById('pathway-description').value = '';
+                });
+            }
+            
+            if (submitBtn) {
+                submitBtn.addEventListener('click', function() {
+                    const name = document.getElementById('pathway-name').value.trim();
+                    const description = document.getElementById('pathway-description').value.trim();
+                    
+                    if (!name) {
+                        alert('Please enter a pathway name');
+                        return;
+                    }
+                    
+                    createCustomPathwayWithData(name, description);
+                    
+                    // Hide form and reset
+                    pathwayForm.classList.remove('active');
+                    showFormBtn.style.display = 'inline-block';
+                    document.getElementById('pathway-name').value = '';
+                    document.getElementById('pathway-description').value = '';
+                });
+            }
+            
+            // Attach event listeners to delete buttons
+            document.querySelectorAll('.btn-delete-pathway').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const pathwayIndex = parseInt(this.getAttribute('data-pathway-index'));
+                    deletePathway(pathwayIndex);
+                });
+            });
+            
+            // Attach event listeners to export buttons
+            document.querySelectorAll('.btn-export').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const pathwayIndex = parseInt(this.getAttribute('data-pathway-index'));
+                    const allPathways = [...preGeneratedPathways, ...customPathways];
+                    exportPathwayToPDF(allPathways[pathwayIndex]);
+                });
+            });
+            
+            // Attach event listeners to move buttons
+            document.querySelectorAll('.btn-move').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const pathwayIndex = parseInt(this.getAttribute('data-pathway-index'));
+                    const courseIndex = parseInt(this.getAttribute('data-course-index'));
+                    const direction = parseInt(this.getAttribute('data-direction'));
+                    moveCourseInPathway(pathwayIndex, courseIndex, direction);
+                });
+            });
+        }
+
+        // Render a single pathway card
+        function renderPathwayCard(pathway, index) {
+            const isCustom = pathway.type === 'custom';
+            const customIndex = index - preGeneratedPathways.length;
+            
+            let html = `
+                <div class="pathway-card">
+                    <div class="pathway-header">
+                        <div>
+                            <div class="pathway-title">${pathway.title}</div>
+                            ${pathway.description ? `<div class="pathway-description">${pathway.description}</div>` : ''}
+                            <span class="pathway-badge">${isCustom ? 'Custom' : 'Pre-generated'}</span>
+                        </div>
+                    </div>
+                    <div class="pathway-actions">
+                        <button class="btn-export" data-pathway-index="${index}" data-is-custom="${isCustom}">
+                            Export as PDF
+                        </button>
+                        ${isCustom ? `
+                            <button class="btn-delete-pathway" data-pathway-index="${customIndex}">
+                                Delete Pathway
+                            </button>
+                        ` : ''}
+                    </div>
+                    <div class="pathway-courses">
+            `;
+            
+            pathway.courses.forEach((courseTitle, courseIndex) => {
+                const course = coursesData.find(c => c.title === courseTitle);
+                if (course) {
+                    html += `
+                        <div class="pathway-course-item">
+                            <div class="pathway-step">${courseIndex + 1}</div>
+                            <div class="pathway-course-content">
+                                <div class="pathway-course-title">${course.title}</div>
+                                <div class="pathway-course-meta">
+                                    ${course.theme ? `<span class="meta-badge badge-theme">${course.theme}</span>` : ''}
+                                    ${course.experience ? `<span class="meta-badge badge-experience">${course.experience}</span>` : ''}
+                                </div>
+                            </div>
+                            ${isCustom ? `
+                                <div class="reorder-controls">
+                                    <button class="btn-move" data-pathway-index="${customIndex}" data-course-index="${courseIndex}" data-direction="-1" 
+                                            ${courseIndex === 0 ? 'disabled' : ''}>
+                                        ↑
+                                    </button>
+                                    <button class="btn-move" data-pathway-index="${customIndex}" data-course-index="${courseIndex}" data-direction="1"
+                                            ${courseIndex === pathway.courses.length - 1 ? 'disabled' : ''}>
+                                        ↓
+                                    </button>
+                                </div>
+                            ` : ''}
+                        </div>
+                    `;
+                }
+            });
+            
+            html += `
+                    </div>
+                </div>
+            `;
+            
+            return html;
+        }
+
+        // Create custom pathway from bookmarks with provided data
+        function createCustomPathwayWithData(pathwayName, description) {
+            if (bookmarks.size < 2) {
+                alert('Please bookmark at least 2 courses to create a pathway.');
+                return;
+            }
+            
+            // Get bookmarked courses in order they appear in the main list
+            const bookmarkedCourseTitles = coursesData
+                .filter(course => bookmarks.has(course.title))
+                .map(course => course.title);
+            
+            const newPathway = {
+                id: `custom-${Date.now()}`,
+                title: pathwayName,
+                description: description,
+                type: 'custom',
+                courses: bookmarkedCourseTitles
+            };
+            
+            customPathways.push(newPathway);
+            saveCustomPathways();
+            renderPathways();
+        }
+
+        // Delete custom pathway
+        function deletePathway(customIndex) {
+            if (confirm('Are you sure you want to delete this pathway?')) {
+                customPathways.splice(customIndex, 1);
+                saveCustomPathways();
+                renderPathways();
+            }
+        }
+
+        // Move course within pathway
+        function moveCourseInPathway(pathwayIndex, courseIndex, direction) {
+            const pathway = customPathways[pathwayIndex];
+            const newIndex = courseIndex + direction;
+            
+            if (newIndex < 0 || newIndex >= pathway.courses.length) return;
+            
+            // Swap courses
+            const temp = pathway.courses[courseIndex];
+            pathway.courses[courseIndex] = pathway.courses[newIndex];
+            pathway.courses[newIndex] = temp;
+            
+            saveCustomPathways();
+            renderPathways();
+        }
+
+        // Export pathway to PDF
+        function exportPathwayToPDF(pathway) {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            
+            let yPosition = 20;
+            const pageWidth = doc.internal.pageSize.width;
+            const margin = 20;
+            const maxWidth = pageWidth - (margin * 2);
+            
+            // Title
+            doc.setFontSize(20);
+            doc.setFont(undefined, 'bold');
+            doc.text(pathway.title, margin, yPosition);
+            yPosition += 10;
+            
+            // Badge
+            doc.setFontSize(10);
+            doc.setFont(undefined, 'normal');
+            doc.setTextColor(100, 100, 100);
+            doc.text(pathway.type === 'custom' ? 'Custom Pathway' : 'Pre-generated Pathway', margin, yPosition);
+            yPosition += 10;
+            
+            // Description
+            if (pathway.description) {
+                doc.setFontSize(11);
+                doc.setTextColor(80, 80, 80);
+                const descLines = doc.splitTextToSize(pathway.description, maxWidth);
+                doc.text(descLines, margin, yPosition);
+                yPosition += (descLines.length * 6) + 8;
+            }
+            
+            // Separator line
+            doc.setDrawColor(200, 200, 200);
+            doc.line(margin, yPosition, pageWidth - margin, yPosition);
+            yPosition += 15;
+            
+            // Courses header
+            doc.setFontSize(14);
+            doc.setFont(undefined, 'bold');
+            doc.setTextColor(0, 0, 0);
+            doc.text('Learning Pathway Courses', margin, yPosition);
+            yPosition += 10;
+            
+            // Course list
+            pathway.courses.forEach((courseTitle, index) => {
+                const course = coursesData.find(c => c.title === courseTitle);
+                if (!course) return;
+                
+                // Check if we need a new page
+                if (yPosition > 270) {
+                    doc.addPage();
+                    yPosition = 20;
+                }
+                
+                // Course number
+                doc.setFontSize(12);
+                doc.setFont(undefined, 'bold');
+                doc.setTextColor(102, 126, 234);
+                doc.text(`${index + 1}.`, margin, yPosition);
+                
+                // Course title
+                doc.setTextColor(0, 0, 0);
+                const titleLines = doc.splitTextToSize(course.title, maxWidth - 10);
+                doc.text(titleLines, margin + 10, yPosition);
+                yPosition += (titleLines.length * 6) + 2;
+                
+                // Course metadata
+                doc.setFontSize(9);
+                doc.setFont(undefined, 'normal');
+                doc.setTextColor(100, 100, 100);
+                
+                const metadata = [];
+                if (course.knowledge) metadata.push(`Knowledge: ${course.knowledge}`);
+                if (course.experience) metadata.push(`Experience: ${course.experience}`);
+                if (course.journey) metadata.push(`Journey: ${course.journey}`);
+                if (course.format) metadata.push(`Format: ${course.format}`);
+                if (course.audience) metadata.push(`Audience: ${course.audience}`);
+                
+                if (metadata.length > 0) {
+                    doc.text(metadata.join(' | '), margin + 10, yPosition);
+                    yPosition += 6;
+                }
+                
+                // Course tags
+                if (course.tags) {
+                    doc.setFontSize(8);
+                    doc.setTextColor(120, 120, 120);
+                    const tagLines = doc.splitTextToSize(`Skills: ${course.tags}`, maxWidth - 10);
+                    doc.text(tagLines, margin + 10, yPosition);
+                    yPosition += (tagLines.length * 5) + 2;
+                }
+                
+                yPosition += 8; // Space between courses
+            });
+            
+            // Footer
+            const pageCount = doc.internal.getNumberOfPages();
+            for (let i = 1; i <= pageCount; i++) {
+                doc.setPage(i);
+                doc.setFontSize(8);
+                doc.setTextColor(150, 150, 150);
+                doc.text(
+                    `AI Training Course Browser - Generated on ${new Date().toLocaleDateString()}`,
+                    margin,
+                    doc.internal.pageSize.height - 10
+                );
+                doc.text(
+                    `Page ${i} of ${pageCount}`,
+                    pageWidth - margin - 20,
+                    doc.internal.pageSize.height - 10
+                );
+            }
+            
+            // Save the PDF
+            const fileName = `${pathway.title.replace(/[^a-z0-9]/gi, '_').toLowerCase()}_pathway.pdf`;
+            doc.save(fileName);
+        }
+
+        // Toggle filters sidebar
+        function toggleFilters() {
+            const sidebar = document.getElementById('filter-sidebar');
+            const btn = document.getElementById('collapse-filters-btn');
+            
+            sidebar.classList.toggle('collapsed');
+            
+            if (sidebar.classList.contains('collapsed')) {
+                btn.textContent = '▶';
+                btn.title = 'Show filters';
+            } else {
+                btn.textContent = '◀';
+                btn.title = 'Hide filters';
+            }
+        }
+
+        // Initialize the application
+        function init() {
+            loadBookmarks();
+            loadCustomPathways();
+            createFilterOptions();
+            renderCourses(coursesData);
+            updateResultsCount(coursesData.length);
+            updateBookmarkCount();
+            
+            document.getElementById('clear-filters').addEventListener('click', clearAllFilters);
+        }
+
+        // Create filter options dynamically
+        function createFilterOptions() {
+            const categories = {
+                theme: new Set(),
+                experience: new Set(),
+                format: new Set(),
+                audience: new Set()
+            };
+
+            // Collect unique values
+            coursesData.forEach(course => {
+                if (course.theme) categories.theme.add(course.theme);
+                if (course.experience) categories.experience.add(course.experience);
+                if (course.format) categories.format.add(course.format);
+                if (course.audience) categories.audience.add(course.audience);
+            });
+
+            // Create filter checkboxes
+            createFilterGroup('theme', Array.from(categories.theme).sort());
+            createFilterGroup('experience', Array.from(categories.experience).sort());
+            createFilterGroup('format', Array.from(categories.format).sort());
+            createFilterGroup('audience', Array.from(categories.audience).sort());
+        }
+
+        function createFilterGroup(category, values) {
+            const container = document.getElementById(`${category}-filters`);
+            
+            values.forEach(value => {
+                const div = document.createElement('div');
+                div.className = 'filter-option';
+                
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.id = `${category}-${value}`;
+                checkbox.value = value;
+                checkbox.addEventListener('change', () => toggleFilter(category, value, checkbox.checked));
+                
+                const label = document.createElement('label');
+                label.htmlFor = `${category}-${value}`;
+                label.textContent = value;
+                
+                div.appendChild(checkbox);
+                div.appendChild(label);
+                div.addEventListener('click', (e) => {
+                    if (e.target !== checkbox) {
+                        checkbox.checked = !checkbox.checked;
+                        checkbox.dispatchEvent(new Event('change'));
+                    }
+                });
+                
+                container.appendChild(div);
+            });
+        }
+
+        function toggleFilter(category, value, isChecked) {
+            if (isChecked) {
+                filters[category].add(value);
+            } else {
+                filters[category].delete(value);
+            }
+            
+            // Update visual state
+            const checkbox = document.getElementById(`${category}-${value}`);
+            if (checkbox) {
+                checkbox.closest('.filter-option').classList.toggle('active', isChecked);
+            }
+            
+            applyFilters();
+        }
+
+        function clearAllFilters() {
+            // Clear all filter sets
+            Object.keys(filters).forEach(category => {
+                filters[category].clear();
+            });
+            
+            // Uncheck all checkboxes
+            document.querySelectorAll('.filter-option input[type="checkbox"]').forEach(checkbox => {
+                checkbox.checked = false;
+            });
+            
+            // Remove active states
+            document.querySelectorAll('.filter-option.active').forEach(option => {
+                option.classList.remove('active');
+            });
+            
+            applyFilters();
+        }
+
+        function applyFilters() {
+            const filteredCourses = coursesData.filter(course => {
+                // If no filters are active, show all courses
+                const hasActiveFilters = Object.values(filters).some(set => set.size > 0);
+                if (!hasActiveFilters) return true;
+                
+                // Check each filter category
+                const matchesTheme = filters.theme.size === 0 || filters.theme.has(course.theme);
+                const matchesExperience = filters.experience.size === 0 || filters.experience.has(course.experience);
+                const matchesFormat = filters.format.size === 0 || filters.format.has(course.format);
+                const matchesAudience = filters.audience.size === 0 || filters.audience.has(course.audience);
+                
+                return matchesTheme && matchesExperience && matchesFormat && matchesAudience;
+            });
+            
+            renderCourses(filteredCourses);
+            updateResultsCount(filteredCourses.length);
+        }
+
+        function renderCourses(courses) {
+            const container = document.getElementById('courses-container');
+            
+            if (courses.length === 0) {
+                container.innerHTML = `
+                    <div class="no-results">
+                        <h2>No courses found</h2>
+                        <p>Try adjusting your filters to see more results</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = courses.map(course => createCourseCard(course)).join('');
+        }
+
+        function updateResultsCount(count) {
+            const total = coursesData.length;
+            const countElement = document.getElementById('results-count');
+            countElement.textContent = `Showing ${count} of ${total} courses`;
+        }
+
+        // Initialize when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', init);
+        } else {
+            init();
+        }
+    </script>
+    </div><!-- end course-browser-widget -->
+</body>
+</html>
