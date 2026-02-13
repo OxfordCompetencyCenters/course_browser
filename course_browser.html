@@ -757,12 +757,14 @@
             display: flex;
         }
 
-        .course-browser-widget .status-banner.loading {
+        .course-browser-widget .status-banner.loading,
+        .course-browser-widget .status-banner.loading-details {
             background: #fff3cd;
             color: #002147;
         }
 
-        .course-browser-widget .status-banner.loading .status-spinner {
+        .course-browser-widget .status-banner.loading .status-spinner,
+        .course-browser-widget .status-banner.loading-details .status-spinner {
             display: inline-block;
             width: 14px;
             height: 14px;
@@ -884,6 +886,11 @@
                     <h3>Audience</h3>
                     <div id="audience-filters"></div>
                 </div>
+
+                <div class="filter-section">
+                    <h3>Month</h3>
+                    <div id="month-filters"></div>
+                </div>
             </aside>
 
             <main class="courses-area">
@@ -947,7 +954,6 @@
         const CACHE_KEY = 'courseBrowserCache';
         const CACHE_MAX_AGE_HOURS = 24;
         const CACHE_TTL_HOURS = 24;
-        const FALLBACK_JSON_URL = 'courses_cache.json';
         const CORS_PROXIES = [
             'https://api.allorigins.win/raw?url=',
             'https://corsproxy.io/?',
@@ -1058,6 +1064,82 @@
             return Object.keys(byKey).map(function(k) { return byKey[k]; });
         }
 
+        // Parse an individual course detail page HTML and extract authoritative fields
+        function parseCourseDetailPage(html) {
+            var doc = new DOMParser().parseFromString(html, 'text/html');
+            var body = doc.body ? doc.body.textContent : '';
+            var detail = {};
+
+            // Extract Location (format) and Date & Time from <h4> headings
+            var h4s = doc.querySelectorAll('h4');
+            h4s.forEach(function(h4) {
+                var txt = (h4.textContent || '').trim();
+                if (/^location$/i.test(txt)) {
+                    var next = h4.nextElementSibling || h4.nextSibling;
+                    if (next) {
+                        var val = (next.textContent || '').trim();
+                        if (val) detail.format = val;
+                    }
+                }
+                if (/^date\s*[&]\s*time$/i.test(txt)) {
+                    var next2 = h4.nextElementSibling || h4.nextSibling;
+                    if (next2) {
+                        var val2 = (next2.textContent || '').trim();
+                        if (val2) detail.date = val2;
+                    }
+                }
+            });
+
+            // Extract Audience Exposure Level (experience)
+            var expMatch = body.match(/Audience Exposure Level[:\s]*([^\n]+)/i);
+            if (expMatch) {
+                var expVal = expMatch[1].trim();
+                if (expVal) detail.experience = expVal;
+            }
+
+            return detail;
+        }
+
+        // Fetch detail pages for internal courses in batches, updating progress banner
+        async function fetchCourseDetails(courses, workingProxy) {
+            var MAX_CONCURRENT = 3;
+            var internalCourses = courses.filter(function(c) {
+                return c.link && c.link.indexOf('oerc.ox.ac.uk') !== -1;
+            });
+            var total = internalCourses.length;
+            if (!total) return;
+            console.log('[CourseBrowser] Fetching detail pages for ' + total + ' internal courses...');
+            var completed = 0;
+            showStatusBanner('loading-details', { completed: 0, total: total });
+
+            for (var i = 0; i < internalCourses.length; i += MAX_CONCURRENT) {
+                var batch = internalCourses.slice(i, i + MAX_CONCURRENT);
+                var promises = batch.map(function(course) {
+                    return (async function() {
+                        try {
+                            var url = workingProxy + encodeURIComponent(course.link);
+                            var resp = await fetch(url);
+                            if (!resp.ok) throw new Error('HTTP ' + resp.status);
+                            var html = await resp.text();
+                            var detail = parseCourseDetailPage(html);
+                            // Merge authoritative fields into course object
+                            if (detail.format) course.format = normalizeFormat(detail.format);
+                            if (detail.experience) course.experience = normalizeExperience(detail.experience);
+                            // Only override date if listing page had no date
+                            if (detail.date && !course.date) course.date = detail.date;
+                            console.log('[CourseBrowser] Detail OK: ' + course.title);
+                        } catch (e) {
+                            console.log('[CourseBrowser] Detail FAIL for: ' + course.title + ' (' + (e && e.message ? e.message : e) + ')');
+                        }
+                    })();
+                });
+                await Promise.all(promises);
+                completed += batch.length;
+                showStatusBanner('loading-details', { completed: completed, total: total });
+            }
+            console.log('[CourseBrowser] Detail fetching complete (' + completed + '/' + total + ')');
+        }
+
         function findNextTable(el) {
             el = el.nextElementSibling;
             while (el) {
@@ -1068,14 +1150,30 @@
             return null;
         }
 
+        // Normalize experience strings to canonical forms
+        function normalizeExperience(exp) {
+            if (!exp) return '';
+            var e = exp.toLowerCase().trim();
+            // Remove leading dash/colon artifacts like "- Level 2" or ": Level 2"
+            e = e.replace(/^[\s\-:]+/, '').trim();
+            if (/open to all/i.test(e)) return 'Open to all';
+            if (/never\s*used/i.test(e) || /level\s*1/i.test(e)) return 'Level 1: Never used AI';
+            if (/sometimes/i.test(e) || /level\s*2/i.test(e)) return 'Level 2: Sometimes use AI';
+            if (/daily|level\s*3/i.test(e)) return 'Level 3: Use AI on a daily basis';
+            return exp.trim();
+        }
+
         function assignExperience(course) {
+            // If experience was already set from detail page, keep it
+            if (course.experience) return;
+            // Fallback: heuristic based on title keywords
             const t = (course.title || '').toLowerCase();
             if (/first steps|introductory|intro to|getting started/i.test(t)) {
                 course.experience = 'Level 1: Never used AI';
                 return;
             }
             if (/10 truths|building a relationship/i.test(t)) {
-                course.experience = 'Open to All';
+                course.experience = 'Open to all';
                 return;
             }
             if (/next steps|advanced|building|from zero/i.test(t)) {
@@ -1083,10 +1181,10 @@
                 return;
             }
             if (/open source|local ai models/i.test(t)) {
-                course.experience = 'Level 3: use AI';
+                course.experience = 'Level 3: Use AI on a daily basis';
                 return;
             }
-            course.experience = course.experience || 'Level 2: Sometimes use AI';
+            course.experience = 'Level 2: Sometimes use AI';
         }
 
         function normalizeFormat(fmt) {
@@ -1126,9 +1224,28 @@
             return aud.trim().charAt(0).toUpperCase() + aud.trim().slice(1);
         }
 
+        // Extract month names from free-text date strings
+        function extractMonths(dateStr) {
+            if (!dateStr) return [];
+            var months = ['January','February','March','April','May','June',
+                          'July','August','September','October','November','December'];
+            var abbrevs = ['Jan','Feb','Mar','Apr','May','Jun',
+                           'Jul','Aug','Sep','Oct','Nov','Dec'];
+            var found = new Set();
+            var lower = dateStr.toLowerCase();
+            for (var i = 0; i < months.length; i++) {
+                if (lower.indexOf(months[i].toLowerCase()) !== -1 ||
+                    lower.indexOf(abbrevs[i].toLowerCase()) !== -1) {
+                    found.add(months[i]);
+                }
+            }
+            return Array.from(found);
+        }
+
         function applyDefaults(course) {
             course.audience = normalizeAudience(course.audience) || 'All';
             course.format = normalizeFormat(course.format);
+            course.experience = normalizeExperience(course.experience);
             course.tags = course.tags || '';
         }
 
@@ -1207,6 +1324,10 @@
             actionsEl.innerHTML = '';
             if (state === 'loading') {
                 messageEl.innerHTML = '<span class="status-spinner"></span> Fetching latest course data...';
+            } else if (state === 'loading-details') {
+                var c = (options && options.completed) || 0;
+                var t = (options && options.total) || '?';
+                messageEl.innerHTML = '<span class="status-spinner"></span> Fetching course details... ' + c + '/' + t;
             } else if (state === 'fresh') {
                 messageEl.textContent = '✓ Course data updated just now';
                 if (options && options.autoHideMs) {
@@ -1261,6 +1382,7 @@
                         coursesData = cached.courses;
                         coursesData.forEach(function(c) {
                             c.format = normalizeFormat(c.format);
+                            c.experience = normalizeExperience(c.experience);
                         });
                         showStatusBanner('cached', { relativeTime: getRelativeTime(cached.last_updated) });
                         init();
@@ -1286,6 +1408,10 @@
                     if (!courses.length) throw new Error('No courses parsed');
                     console.log('[CourseBrowser] Proxy succeeded — parsing HTML');
                     console.log('[CourseBrowser] Parsed ' + courses.length + ' courses from sections');
+                    // Fetch detail pages for each course using the same working proxy
+                    await fetchCourseDetails(courses, CORS_PROXIES[i]);
+                    // Re-apply defaults after detail pages have set authoritative fields
+                    courses.forEach(function(c) { applyDefaults(c); });
                     saveCache(courses);
                     console.log('[CourseBrowser] Saved to localStorage cache');
                     coursesData = courses;
@@ -1299,25 +1425,7 @@
                 }
             }
 
-            console.log('[CourseBrowser] All proxies failed — loading static fallback');
-            try {
-                const response = await fetch(FALLBACK_JSON_URL);
-                if (!response.ok) throw new Error('Fallback fetch failed');
-                const data = await response.json();
-                let courses = data.courses || [];
-                courses.forEach(function(c) { applyDefaults(c); });
-                coursesData = courses;
-                console.log('[CourseBrowser] Loaded ' + courses.length + ' courses from courses_cache.json');
-                showStatusBanner('offline', { date: data.last_updated });
-                init();
-                resetRefreshButton();
-                if (manualRefreshBtn) manualRefreshBtn.disabled = false;
-                return;
-            } catch (e2) {
-                console.log('[CourseBrowser] ERROR: ' + (e2 && e2.message ? e2.message : e2));
-            }
-
-            console.error('[CourseBrowser] ERROR: Could not load courses from proxies or fallback');
+            console.error('[CourseBrowser] All proxies failed — could not load courses');
             showLoadError();
             resetRefreshButton();
             if (manualRefreshBtn) manualRefreshBtn.disabled = false;
@@ -1345,14 +1453,15 @@
             theme: new Set(),
             experience: new Set(),
             format: new Set(),
-            audience: new Set()
+            audience: new Set(),
+            month: new Set()
         };
 
         let bookmarks = new Set();
         let currentTab = 'all';
         let customPathways = [];
 
-        // Pre-generated learning pathways (course titles must match courses_cache.json / scraped data)
+        // Pre-generated learning pathways (course titles must match scraped data)
         const preGeneratedPathways = [
             {
                 id: 'beginner-ai',
@@ -1961,11 +2070,14 @@
 
         // Create filter options dynamically
         function createFilterOptions() {
+            const MONTH_ORDER = ['January','February','March','April','May','June',
+                                 'July','August','September','October','November','December'];
             const categories = {
                 theme: new Set(),
                 experience: new Set(),
                 format: new Set(),
-                audience: new Set()
+                audience: new Set(),
+                month: new Set()
             };
 
             // Collect unique values
@@ -1976,6 +2088,14 @@
                     categories.format.add(cat);
                 });
                 if (course.audience) categories.audience.add(course.audience);
+                extractMonths(course.date).forEach(function(m) {
+                    categories.month.add(m);
+                });
+            });
+
+            // Sort months in calendar order
+            var sortedMonths = Array.from(categories.month).sort(function(a, b) {
+                return MONTH_ORDER.indexOf(a) - MONTH_ORDER.indexOf(b);
             });
 
             // Create filter checkboxes
@@ -1983,6 +2103,7 @@
             createFilterGroup('experience', Array.from(categories.experience).sort());
             createFilterGroup('format', Array.from(categories.format).sort());
             createFilterGroup('audience', Array.from(categories.audience).sort());
+            createFilterGroup('month', sortedMonths);
         }
 
         function safeFilterId(category, value) {
@@ -2068,8 +2189,11 @@
                 const matchesExperience = filters.experience.size === 0 || filters.experience.has(course.experience);
                 const matchesFormat = filters.format.size === 0 || getFormatCategories(course.format).some(function(cat) { return filters.format.has(cat); });
                 const matchesAudience = filters.audience.size === 0 || filters.audience.has(course.audience);
+                // Month: match if no month filter active, or course has no parseable date, or any extracted month is selected
+                const courseMonths = extractMonths(course.date);
+                const matchesMonth = filters.month.size === 0 || courseMonths.length === 0 || courseMonths.some(function(m) { return filters.month.has(m); });
                 
-                return matchesTheme && matchesExperience && matchesFormat && matchesAudience;
+                return matchesTheme && matchesExperience && matchesFormat && matchesAudience && matchesMonth;
             });
             
             renderCourses(filteredCourses);
