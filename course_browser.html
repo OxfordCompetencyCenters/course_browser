@@ -1089,9 +1089,37 @@
             course.experience = course.experience || 'Level 2: Sometimes use AI';
         }
 
+        function normalizeFormat(fmt) {
+            if (!fmt) return '';
+            var f = fmt.toLowerCase().trim();
+            var hasOnline = f.indexOf('online') !== -1;
+            var hasInPerson = f.indexOf('in-person') !== -1 || f.indexOf('in person') !== -1;
+            // Normalize "Online or In Person" and similar variations to "Online and in-person"
+            // Both "Online and in-person" and "Online or In Person" contain "online" and "in person"
+            if (hasOnline && hasInPerson) return 'Online and in-person';
+            if (hasInPerson) return 'In-person';
+            if (hasOnline) return 'Online';
+            return fmt.trim();
+        }
+
+        function normalizeAudience(aud) {
+            if (!aud) return '';
+            var a = aud.toLowerCase().trim();
+            var CANONICAL = {
+                'all': 'All',
+                'staff': 'Staff',
+                'students': 'Students',
+                'staff and students': 'Staff and students',
+                'educators': 'Educators',
+                'researchers': 'Researchers'
+            };
+            if (CANONICAL[a]) return CANONICAL[a];
+            return aud.trim().charAt(0).toUpperCase() + aud.trim().slice(1);
+        }
+
         function applyDefaults(course) {
-            course.audience = course.audience || 'All';
-            course.format = course.format || 'Online or In Person';
+            course.audience = normalizeAudience(course.audience) || 'All';
+            course.format = normalizeFormat(course.format) || 'Online or In Person';
             course.tags = course.tags || '';
         }
 
@@ -1222,6 +1250,9 @@
                     if (hours <= CACHE_TTL_HOURS) {
                         console.log('[CourseBrowser] Cache hit — data from ' + getRelativeTime(cached.last_updated));
                         coursesData = cached.courses;
+                        coursesData.forEach(function(c) {
+                            c.format = normalizeFormat(c.format) || 'Online or In Person';
+                        });
                         showStatusBanner('cached', { relativeTime: getRelativeTime(cached.last_updated) });
                         init();
                         resetRefreshButton();
@@ -1931,7 +1962,10 @@
             coursesData.forEach(course => {
                 if (course.theme) categories.theme.add(course.theme);
                 if (course.experience) categories.experience.add(course.experience);
-                if (course.format) categories.format.add(course.format);
+                if (course.format) {
+                    const normalized = normalizeFormat(course.format) || 'Online or In Person';
+                    categories.format.add(normalized);
+                }
                 if (course.audience) categories.audience.add(course.audience);
             });
 
