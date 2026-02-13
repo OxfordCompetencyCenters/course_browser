@@ -1985,6 +1985,11 @@
             createFilterGroup('audience', Array.from(categories.audience).sort());
         }
 
+        function safeFilterId(category, value) {
+            var safe = value.replace(/[^a-zA-Z0-9-]+/g, '-').replace(/^-+|-+$/g, '').replace(/-+/g, '-');
+            return category + '-' + (safe || 'option');
+        }
+
         function createFilterGroup(category, values) {
             const container = document.getElementById(`${category}-filters`);
             if (!container) return;
@@ -1996,18 +2001,18 @@
                 
                 const checkbox = document.createElement('input');
                 checkbox.type = 'checkbox';
-                checkbox.id = `${category}-${value}`;
+                checkbox.id = safeFilterId(category, value);
                 checkbox.value = value;
                 checkbox.addEventListener('change', () => toggleFilter(category, value, checkbox.checked));
                 
                 const label = document.createElement('label');
-                label.htmlFor = `${category}-${value}`;
+                label.htmlFor = safeFilterId(category, value);
                 label.textContent = value;
                 
                 div.appendChild(checkbox);
                 div.appendChild(label);
                 div.addEventListener('click', (e) => {
-                    if (e.target !== checkbox) {
+                    if (e.target !== checkbox && e.target !== label) {
                         checkbox.checked = !checkbox.checked;
                         checkbox.dispatchEvent(new Event('change'));
                     }
@@ -2025,7 +2030,7 @@
             }
             
             // Update visual state
-            const checkbox = document.getElementById(`${category}-${value}`);
+            const checkbox = document.getElementById(safeFilterId(category, value));
             if (checkbox) {
                 checkbox.closest('.filter-option').classList.toggle('active', isChecked);
             }
