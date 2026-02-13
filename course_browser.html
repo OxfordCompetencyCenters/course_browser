@@ -47,6 +47,7 @@
 
         .course-browser-widget .main-content {
             display: flex;
+            position: relative;
             min-height: 500px;
             max-height: 600px;
         }
@@ -62,12 +63,38 @@
         }
 
         .course-browser-widget .sidebar.collapsed {
-            width: 50px;
-            padding: 20px 10px;
+            width: 0;
+            padding: 0;
+            border-right: none;
+            overflow: visible;
+            background: transparent;
+            flex-shrink: 0;
         }
 
         .course-browser-widget .sidebar.collapsed .filter-section {
             display: none;
+        }
+
+        .course-browser-widget .sidebar.collapsed .collapse-btn {
+            position: absolute;
+            left: 6px;
+            top: 10px;
+            width: 32px;
+            height: 32px;
+            min-width: 32px;
+            padding: 0;
+            margin: 0;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.18);
+            z-index: 10;
+            font-size: 0.75em;
+        }
+
+        .course-browser-widget .sidebar.collapsed + .courses-area {
+            padding-left: 44px;
         }
 
         .course-browser-widget .collapse-btn {
@@ -142,6 +169,7 @@
             padding: 0;
             overflow-y: auto;
             max-height: 600px;
+            transition: padding-left 0.3s ease;
         }
 
         .course-browser-widget .tabs {
@@ -533,6 +561,27 @@
             border-bottom: 2px solid #e0e0e0;
         }
 
+        .course-browser-widget .results-header-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .course-browser-widget .btn-refresh-header {
+            background: #002147;
+            color: white;
+            border: none;
+            padding: 6px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background 0.2s ease;
+        }
+
+        .course-browser-widget .btn-refresh-header:hover {
+            background: #001a38;
+        }
+
         .course-browser-widget .results-count {
             font-size: 1em;
             color: #666;
@@ -540,17 +589,18 @@
 
         .course-browser-widget .clear-filters {
             padding: 8px 16px;
-            background: #ff6b6b;
-            color: white;
-            border: none;
+            background: transparent;
+            color: #002147;
+            border: 2px solid #002147;
             border-radius: 6px;
             cursor: pointer;
             font-size: 0.85em;
-            transition: background 0.2s ease;
+            transition: background 0.2s ease, color 0.2s ease;
         }
 
         .course-browser-widget .clear-filters:hover {
-            background: #ee5a52;
+            background: #002147;
+            color: white;
         }
 
         .course-browser-widget .course-card {
@@ -594,7 +644,7 @@
 
         .course-browser-widget .course-title {
             font-size: 1.1em;
-            color: #CE0F69;
+            color: #002147;
             margin-bottom: 10px;
             font-weight: 600;
             padding-right: 40px;
@@ -616,24 +666,12 @@
         }
 
 
-        .course-browser-widget .badge-theme {
-            background: #f3e5f5;
-            color: #6a1b9a;
-        }
-
-        .course-browser-widget .badge-experience {
-            background: #e8f5e9;
-            color: #2e7d32;
-        }
-
-        .course-browser-widget .badge-format {
-            background: #fff3e0;
-            color: #e65100;
-        }
-
+        .course-browser-widget .badge-theme,
+        .course-browser-widget .badge-experience,
+        .course-browser-widget .badge-format,
         .course-browser-widget .badge-audience {
-            background: #fce4ec;
-            color: #ad1457;
+            background: #e9ecef;
+            color: #002147;
         }
 
         .course-browser-widget .course-tags {
@@ -684,7 +722,7 @@
         }
 
         .course-browser-widget .course-link-btn:hover {
-            background: #CE0F69;
+            background: #001a38;
             transform: translateX(3px);
         }
 
@@ -701,6 +739,95 @@
 
         .course-browser-widget .no-results p {
             font-size: 1.1em;
+        }
+
+        .course-browser-widget .status-banner {
+            display: none;
+            padding: 10px 20px;
+            margin: 0 0 15px 0;
+            border-radius: 6px;
+            font-size: 0.9em;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            border-left: 4px solid #002147;
+        }
+
+        .course-browser-widget .status-banner.visible {
+            display: flex;
+        }
+
+        .course-browser-widget .status-banner.loading {
+            background: #fff3cd;
+            color: #002147;
+        }
+
+        .course-browser-widget .status-banner.loading .status-spinner {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            border: 2px solid #002147;
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: status-spin 0.8s linear infinite;
+            vertical-align: middle;
+            margin-right: 6px;
+        }
+
+        @keyframes status-spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .course-browser-widget .status-banner.fresh {
+            background: #d4edda;
+            color: #155724;
+            border-left-color: #28a745;
+        }
+
+        .course-browser-widget .status-banner.cached {
+            background: #e9ecef;
+            color: #495057;
+        }
+
+        .course-browser-widget .status-banner.offline {
+            background: #fff3cd;
+            color: #002147;
+        }
+
+        .course-browser-widget .status-banner .status-banner-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .course-browser-widget .status-banner .dismiss-btn,
+        .course-browser-widget .status-banner .retry-btn {
+            background: #002147;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.85em;
+        }
+
+        .course-browser-widget .status-banner .dismiss-btn:hover,
+        .course-browser-widget .status-banner .retry-btn:hover {
+            background: #001a38;
+        }
+
+        .course-browser-widget .load-error {
+            text-align: center;
+            padding: 40px 20px;
+            color: #666;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            margin: 20px;
+            background: #f8f9fa;
+        }
+
+        .course-browser-widget .load-error h2 {
+            color: #002147;
+            margin-bottom: 10px;
         }
 
         @media (max-width: 768px) {
@@ -727,6 +854,11 @@
         <div class="header">
             <h1>AI Training Course Browser</h1>
             <p>Filter and discover the perfect AI training course for your needs</p>
+        </div>
+
+        <div id="data-status-banner" class="status-banner" role="alert">
+            <span id="data-status-message"></span>
+            <span class="status-banner-actions" id="data-status-actions"></span>
         </div>
 
         <div class="main-content">
@@ -770,7 +902,10 @@
                 <div class="tab-content">
                     <div id="all-panel" class="tab-panel active">
                         <div class="results-header">
-                            <div class="results-count" id="results-count">Loading courses...</div>
+                            <div class="results-header-left">
+                                <span class="results-count" id="results-count">Loading courses...</span>
+                                <button type="button" class="btn-refresh-header" id="manual-refresh-btn" title="Refresh course data" aria-label="Refresh course data">🔄</button>
+                            </div>
                             <button class="clear-filters" id="clear-filters">Clear All Filters</button>
                         </div>
                         <div id="courses-container">
@@ -805,229 +940,365 @@
     </div>
 
     <script>
-        // Course data embedded directly
-        const coursesData = [
-            {
-                "title": "Your First Steps with ChatGPT: Introductory Training for Everyone",
-                "theme": "General AI",
-                "experience": "Level 1: Never used AI",
-                "format": "Online or In Person",
-                "audience": "All",
-                "tags": "AI confidence & literacy; Practical tool proficiency; Critical Evaluation of AI outputs; Security and Privacy Awareness; AI for All",
-                "date": "Multiple dates available",
-                "link": "https://oerc.ox.ac.uk/ai-centre/training-events/workshops-and-webinars/your-first-steps-with-chatgpt"
-            },
-            {
-                "title": "Next Steps with ChatGPT: Advanced Tools and Features",
-                "theme": "General AI",
-                "experience": "Level 2: Sometimes use AI",
-                "format": "Online or In Person",
-                "audience": "All",
-                "tags": "AI confidence & literacy; Practical tool proficiency; Prompting and prompt workflows; Critical evaluation of AI outputs; security and Privacy Awareness; AI for All",
-                "date": "Multiple dates available",
-                "link": "https://oerc.ox.ac.uk/ai-centre/training-events/workshops-and-webinars/next-steps-with-chatgpt"
-            },
-            {
-                "title": "Making Good Learning Decisions with Generative AI",
-                "theme": "Teaching & Education",
-                "experience": "Level 1: Never used AI",
-                "format": "Online or In Person",
-                "audience": "Students",
-                "tags": "AI confidence & literacy; Practical tool proficiency",
-                "date": "Multiple dates available",
-                "link": "https://oerc.ox.ac.uk/ai-centre/training-events/workshops-and-webinars/student-training"
-            },
-            {
-                "title": "Intro to Generative AI: Hands-on session",
-                "theme": "General AI",
-                "experience": "Level 1: Never used AI",
-                "format": "In Person",
-                "audience": "All",
-                "tags": "AI Confidence and Literacy; Practical tool proficiency",
-                "date": "On demand",
-                "link": "https://oerc.ox.ac.uk/ai-centre/training-events/workshops-and-webinars/intro-to-generative-ai-hands-on-session"
-            },
-            {
-                "title": "Mapping the Landscape: Introduction to Coding with AI for Everyone: Empowering Non-Programmers to Create with AI",
-                "theme": "Coding & Development",
-                "experience": "Level 2: Sometimes use AI",
-                "format": "Online",
-                "audience": "All",
-                "tags": "Practical tool proficiency; prompting and prompt workflows; Critical evaluation of AI outputs; security and Privacy Awareness; AI for All",
-                "date": "27 January 2026, 12:30 - 13:30",
-                "link": "https://oerc.ox.ac.uk/ai-centre/ai-centre-trainings/mapping-the-landscape-introduction-to-coding-with-ai-for-everyone"
-            },
-            {
-                "title": "Introduction to Open Source and Local AI Models: Running AI Locally from Laptops to Servers",
-                "theme": "Research",
-                "experience": "Level 3: use AI",
-                "format": "Online",
-                "audience": "Researchers",
-                "tags": "Practical tool proficiency; AI for researchers",
-                "date": "10 February 2026, 12:30 - 13:30",
-                "link": "https://oerc.ox.ac.uk/ai-centre/ai-centre-trainings/introduction-to-open-source-and-local-ai-models"
-            },
-            {
-                "title": "Mapping the Landscape: Understanding AI Agents and Agentic Workflows",
-                "theme": "General AI",
-                "experience": "Level 2: Sometimes use AI",
-                "format": "Online or In Person",
-                "audience": "All",
-                "tags": "AI confidence and literacy; practical tool proficiency",
-                "date": "3 March 2026, 12:30 - 13:30",
-                "link": "https://oerc.ox.ac.uk/ai-centre/ai-centre-trainings/mapping-the-landscape-understanding-ai-agents"
-            },
-            {
-                "title": "Building Large Language Model Powered Chatbots with Microsoft tools",
-                "theme": "Coding & Development",
-                "experience": "Level 2: Sometimes use AI",
-                "format": "Online or In Person",
-                "audience": "All",
-                "tags": "Practical tool proficiency; Prompting and prompt workflows; AI for all; Responsible Use; Critical evaluation",
-                "date": "3 February 2026, 10:00 - 11:00",
-                "link": "https://oerc.ox.ac.uk/ai-centre/ai-centre-trainings/building-large-language-model-powered-chatbots-with-microsoft-tools"
-            },
-            {
-                "title": "Thinking About Thinking with AI: Why Self-Knowledge is Your Real Interface",
-                "theme": "Operations & Admin",
-                "experience": "Open to All",
-                "format": "Online or In Person",
-                "audience": "All",
-                "tags": "",
-                "date": "5 February 2026, 11:00 - 12:30",
-                "link": "https://oerc.ox.ac.uk/ai-centre/ai-centre-trainings/thinking-about-thinking-with-ai-why-self-knowledge-is-your-real-interface"
-            },
-            {
-                "title": "10 Truths About AI That Will Stand the Test of Time",
-                "theme": "General AI",
-                "experience": "Open to All",
-                "format": "Online or In Person",
-                "audience": "All",
-                "tags": "",
-                "date": "12 February 2026, 11:00 - 12:00",
-                "link": "https://oerc.ox.ac.uk/ai-centre/ai-centre-trainings/10-truths-about-ai-that-will-stand-the-test-of-time"
-            },
-            {
-                "title": "Revealing Unknown Unknowns: How to Use ChatGPT as a Strategic Mirror",
-                "theme": "Operations & Admin",
-                "experience": "Level 2: Sometimes use AI",
-                "format": "Online or In Person",
-                "audience": "All",
-                "tags": "",
-                "date": "19 February 2026, 14:00 - 15:00",
-                "link": "https://oerc.ox.ac.uk/ai-centre/ai-centre-trainings/revealing-unknown-unknowns"
-            },
-            {
-                "title": "Building a relationship with AI",
-                "theme": "General AI",
-                "experience": "Level 2: Sometimes use AI",
-                "format": "Online or In Person",
-                "audience": "All",
-                "tags": "",
-                "date": "12 March 2026, 11:00 - 12:00",
-                "link": "https://oerc.ox.ac.uk/ai-centre/ai-centre-trainings/building-a-relationship-with-ai"
-            },
-            {
-                "title": "AI in the Writing Process: Rethinking Authorship and Assessment",
-                "theme": "Teaching & Education",
-                "experience": "Level 2: Sometimes use AI",
-                "format": "Online or In Person",
-                "audience": "Educators",
-                "tags": "",
-                "date": "29 January 2026, 14:00 - 15:30; 24 February 2026, 14:00 - 15:30",
-                "link": "https://oerc.ox.ac.uk/ai-centre/ai-centre-trainings/ai-in-the-writing-process-rethinking-authorship-and-assessment"
-            },
-            {
-                "title": "Beyond Detection: Navigating AI Tools and Ethical Practice in Education",
-                "theme": "Teaching & Education",
-                "experience": "Level 2: Sometimes use AI",
-                "format": "Online or In Person",
-                "audience": "Educators",
-                "tags": "",
-                "date": "3 February 2026, 14:00 - 15:30; 2 March 2026, 11:00 - 12:30",
-                "link": "https://oerc.ox.ac.uk/ai-centre/ai-centre-trainings/beyond-detection-navigating-ai-tools-and-ethical-practice-in-education"
-            },
-            {
-                "title": "From Zero to App Development with Generative AI",
-                "theme": "Coding & Development",
-                "experience": "Level 2: Sometimes use AI",
-                "format": "Online or In Person",
-                "audience": "All",
-                "tags": "AI for Educators",
-                "date": "15 January 2026, 11:00 - 12:30; 12 February 2026, 13:00 - 14:30",
-                "link": "https://oerc.ox.ac.uk/ai-centre/ai-centre-trainings/from-zero-to-app-development-with-generative-ai"
-            },
-            {
-                "title": "Intelligent AI Agents at Work: Transforming Content Analysis with IntelliDoc - A Hands-On Guide for Oxford Academics",
-                "theme": "Research",
-                "experience": "Level 2: Sometimes use AI",
-                "format": "Online or In Person",
-                "audience": "Researchers",
-                "tags": "",
-                "date": "21 January 2026, 13:00 - 14:00",
-                "link": "https://oerc.ox.ac.uk/ai-centre/ai-centre-trainings/intelligent-ai-agents-at-work-transforming-content-analysis-with-intellidoc-a-hands-on-guide-for-oxford-academics-and-researchers"
-            },
-            {
-                "title": "AI and Research: From Personal Productivity to Building Your Own Tools",
-                "theme": "Research",
-                "experience": "Level 2: Sometimes use AI",
-                "format": "Online or In Person",
-                "audience": "Researchers",
-                "tags": "",
-                "date": "16 January 2026 (all day); 23 January 2026 (all day)",
-                "link": "https://oerc.ox.ac.uk/ai-centre/ai-centre-trainings/ai-for-researchers"
-            },
-            {
-                "title": "Getting Started on Your AI Journey in Operations (Part 1: Understanding the Basics)",
-                "theme": "Operations & Admin",
-                "experience": "Level 1: Never used AI",
-                "format": "Online or In Person",
-                "audience": "Staff Admin",
-                "tags": "",
-                "date": "On demand",
-                "link": "https://oerc.ox.ac.uk/ai-centre/training-events"
-            },
-            {
-                "title": "Getting Started on Your AI Journey in Operations (Part 2: Using the Tools Effectively)",
-                "theme": "Operations & Admin",
-                "experience": "Level 2: Sometimes use AI",
-                "format": "Online or In Person",
-                "audience": "Staff Admin",
-                "tags": "",
-                "date": "On demand",
-                "link": "https://oerc.ox.ac.uk/ai-centre/training-events"
-            },
-            {
-                "title": "Getting Started on Your AI Journey in Operations (Part 3: Applying AI to Your Work)",
-                "theme": "Operations & Admin",
-                "experience": "Level 2: Sometimes use AI",
-                "format": "Online or In Person",
-                "audience": "Staff Admin",
-                "tags": "",
-                "date": "On demand",
-                "link": "https://oerc.ox.ac.uk/ai-centre/training-events"
-            },
-            {
-                "title": "Gemini",
-                "theme": "General AI",
-                "experience": "Level 1: Never used AI",
-                "format": "Online or In Person",
-                "audience": "All",
-                "tags": "AI confidence and literacy; practical tool proficiency. Practical tool proficiency; prompting and prompt workflows; AI for all. Responsible Use; Critical evaluation",
-                "date": "On demand",
-                "link": "https://oerc.ox.ac.uk/ai-centre/training-events"
-            },
-            {
-                "title": "Online Presence and AI",
-                "theme": "General AI",
-                "experience": "Level 2: Sometimes use AI",
-                "format": "Online or In Person",
-                "audience": "Researchers",
-                "tags": "Research productivity with AI; Prompting & prompt workflows; AI confidence & literacy",
-                "date": "On demand",
-                "link": "https://oerc.ox.ac.uk/ai-centre/training-events"
-            }
+        // Self-contained: scrape from Oxford page and cache in localStorage (no Python at runtime)
+        const SOURCE_URL = 'https://oerc.ox.ac.uk/ai-centre/training-events/workshops-and-webinars';
+        const LISTING_URL = SOURCE_URL;
+        const BASE_URL = 'https://oerc.ox.ac.uk';
+        const CACHE_KEY = 'courseBrowserCache';
+        const CACHE_MAX_AGE_HOURS = 24;
+        const CACHE_TTL_HOURS = 24;
+        const FALLBACK_JSON_URL = 'courses_cache.json';
+        const CORS_PROXIES = [
+            'https://api.allorigins.win/raw?url=',
+            'https://corsproxy.io/?',
+            'https://api.codetabs.com/v1/proxy?quest='
         ];
+        const THEME_MAP = {
+            'Getting Started with AI at Oxford': 'General AI',
+            'AI at Oxford': 'General AI',
+            'Mapping the Landscape': 'General AI',
+            'AI for Strategic Thinking and Operations': 'Operations & Admin',
+            'AI in Education': 'Teaching & Education',
+            'AI for Coding': 'Coding & Development',
+            'AI for Researchers': 'Research',
+            'Other training': 'General AI'
+        };
+        let coursesData = [];
+
+        function normalizeUrl(href) {
+            if (!href || !href.trim()) return '';
+            href = href.trim();
+            if (href.startsWith('/')) return BASE_URL + href;
+            return href;
+        }
+
+        function getText(el) { return el ? (el.textContent || '').trim() : ''; }
+
+        function getDateCellText(td) {
+            if (!td || !td.textContent) return '';
+            const parts = td.textContent.split(/\n/).map(s => s.trim()).filter(Boolean);
+            return parts.length ? parts.join('; ') : '';
+        }
+
+        function parseTableAiAtOxford(table, sectionHeading) {
+            const courses = [];
+            const theme = THEME_MAP[sectionHeading] || 'General AI';
+            const rows = table.querySelectorAll('tr');
+            if (!rows.length) return courses;
+            for (let i = 1; i < rows.length; i++) {
+                const tds = rows[i].querySelectorAll('td');
+                if (tds.length < 2) continue;
+                const a = tds[0].querySelector('a');
+                const title = getText(a || tds[0]);
+                const href = a ? (a.getAttribute('href') || '') : '';
+                const audience = getText(tds[1]);
+                const format_ = tds[2] ? getText(tds[2]) : '';
+                if (!title) continue;
+                courses.push({ title, link: normalizeUrl(href), theme, date: 'Multiple dates available', audience, format: format_, experience: '', tags: '', training_provider: '' });
+            }
+            return courses;
+        }
+
+        function parseTableTwoCols(table, sectionHeading) {
+            const courses = [];
+            const theme = THEME_MAP[sectionHeading] || 'General AI';
+            var sectionAudience = '';
+            if (/AI for Researchers/i.test(sectionHeading)) sectionAudience = 'Researchers';
+            else if (/AI in Education/i.test(sectionHeading)) sectionAudience = 'Educators';
+            const rows = table.querySelectorAll('tr');
+            for (let i = 1; i < rows.length; i++) {
+                const tds = rows[i].querySelectorAll('td');
+                if (tds.length < 1) continue;
+                const a = tds[0].querySelector('a');
+                const title = getText(a || tds[0]);
+                const href = a ? (a.getAttribute('href') || '') : '';
+                const dateText = tds[1] ? getDateCellText(tds[1]) : '';
+                if (!title) continue;
+                courses.push({ title, link: normalizeUrl(href), theme, date: dateText, audience: sectionAudience, format: '', experience: '', tags: '', training_provider: '' });
+            }
+            return courses;
+        }
+
+        function parseTableOtherTraining(table, sectionHeading) {
+            const courses = [];
+            const theme = THEME_MAP[sectionHeading] || 'General AI';
+            const rows = table.querySelectorAll('tr');
+            for (let i = 1; i < rows.length; i++) {
+                const tds = rows[i].querySelectorAll('td');
+                if (tds.length < 2) continue;
+                const a = tds[0].querySelector('a');
+                const title = getText(a || tds[0]);
+                const href = a ? (a.getAttribute('href') || '') : '';
+                const provider = getText(tds[1]);
+                const dateText = tds[2] ? getDateCellText(tds[2]) : '';
+                if (!title) continue;
+                courses.push({ title, link: normalizeUrl(href), theme, date: dateText, audience: '', format: '', experience: '', tags: '', training_provider: provider });
+            }
+            return courses;
+        }
+
+        function looksLikeDate(s) {
+            if (!s) return false;
+            const t = s.toLowerCase();
+            return t.indexOf('multiple') !== -1 || t.indexOf('on demand') !== -1 || t.indexOf('date') !== -1 || /\d/.test(s);
+        }
+
+        function deduplicateCourses(courses) {
+            const byKey = {};
+            courses.forEach(function(c) {
+                const key = (c.title || '') + '|' + (c.link || '');
+                if (!byKey[key]) byKey[key] = Object.assign({}, c);
+                else {
+                    const ex = byKey[key];
+                    ['date', 'audience', 'format', 'experience', 'tags'].forEach(function(k) {
+                        if (c[k] && (!ex[k] || (k === 'date' && looksLikeDate(c[k]) && !looksLikeDate(ex[k])))) ex[k] = c[k];
+                    });
+                }
+            });
+            return Object.keys(byKey).map(function(k) { return byKey[k]; });
+        }
+
+        function findNextTable(el) {
+            el = el.nextElementSibling;
+            while (el) {
+                if (el.tagName === 'TABLE') return el;
+                if (el.tagName === 'H2') return null;
+                el = el.nextElementSibling;
+            }
+            return null;
+        }
+
+        function assignExperience(course) {
+            const t = (course.title || '').toLowerCase();
+            if (/first steps|introductory|intro to|getting started/i.test(t)) {
+                course.experience = 'Level 1: Never used AI';
+                return;
+            }
+            if (/10 truths|building a relationship/i.test(t)) {
+                course.experience = 'Open to All';
+                return;
+            }
+            if (/next steps|advanced|building|from zero/i.test(t)) {
+                course.experience = 'Level 2: Sometimes use AI';
+                return;
+            }
+            if (/open source|local ai models/i.test(t)) {
+                course.experience = 'Level 3: use AI';
+                return;
+            }
+            course.experience = course.experience || 'Level 2: Sometimes use AI';
+        }
+
+        function applyDefaults(course) {
+            course.audience = course.audience || 'All';
+            course.format = course.format || 'Online or In Person';
+            course.tags = course.tags || '';
+        }
+
+        function parseListing(html) {
+            const doc = new DOMParser().parseFromString(html, 'text/html');
+            const all = [];
+            const h2s = doc.querySelectorAll('h2');
+            h2s.forEach(function(h2) {
+                const heading = getText(h2);
+                let tbl = findNextTable(h2);
+                if (!tbl) return;
+                if (heading.indexOf('Other training') !== -1) {
+                    all.push.apply(all, parseTableOtherTraining(tbl, heading));
+                    return;
+                }
+                if (heading.indexOf('Getting Started with AI at Oxford') !== -1 || heading.indexOf('AI at Oxford') !== -1) {
+                    const firstRow = tbl.querySelector('tr');
+                    const ncols = firstRow ? firstRow.querySelectorAll('th, td').length : 0;
+                    if (ncols >= 3) {
+                        all.push.apply(all, parseTableAiAtOxford(tbl, heading));
+                    } else {
+                        const table2 = findNextTable(tbl);
+                        if (table2) {
+                            const r2 = table2.querySelector('tr');
+                            if (r2 && r2.querySelectorAll('th, td').length >= 3) all.push.apply(all, parseTableAiAtOxford(table2, heading));
+                            else all.push.apply(all, parseTableTwoCols(tbl, heading));
+                        } else all.push.apply(all, parseTableTwoCols(tbl, heading));
+                    }
+                    return;
+                }
+                all.push.apply(all, parseTableTwoCols(tbl, heading));
+            });
+            const deduped = deduplicateCourses(all);
+            deduped.forEach(function(c) {
+                if (c.theme === 'General AI' && /mapping the landscape/i.test(c.title || '') && /coding|code/i.test(c.title || '')) {
+                    c.theme = 'Coding & Development';
+                }
+                assignExperience(c);
+                applyDefaults(c);
+            });
+            return deduped;
+        }
+
+        function saveCache(courses) {
+            try {
+                localStorage.setItem(CACHE_KEY, JSON.stringify({ last_updated: new Date().toISOString(), courses: courses }));
+            } catch (e) {}
+        }
+
+        function loadFromCache() {
+            try {
+                const raw = localStorage.getItem(CACHE_KEY);
+                if (!raw) return null;
+                return JSON.parse(raw);
+            } catch (e) { return null; }
+        }
+
+        function getRelativeTime(lastUpdated) {
+            const now = Date.now();
+            const then = new Date(lastUpdated).getTime();
+            const mins = Math.floor((now - then) / (1000 * 60));
+            const hours = Math.floor(mins / 60);
+            const days = Math.floor(hours / 24);
+            if (mins < 60) return mins <= 1 ? 'just now' : mins + ' minutes ago';
+            if (hours < 24) return hours === 1 ? '1 hour ago' : hours + ' hours ago';
+            return days === 1 ? '1 day ago' : days + ' days ago';
+        }
+
+        function showStatusBanner(state, options) {
+            const banner = document.getElementById('data-status-banner');
+            const messageEl = document.getElementById('data-status-message');
+            const actionsEl = document.getElementById('data-status-actions');
+            if (!banner || !messageEl || !actionsEl) return;
+            banner.className = 'status-banner visible ' + state;
+            banner.setAttribute('data-status', state);
+            actionsEl.innerHTML = '';
+            if (state === 'loading') {
+                messageEl.innerHTML = '<span class="status-spinner"></span> Fetching latest course data...';
+            } else if (state === 'fresh') {
+                messageEl.textContent = '✓ Course data updated just now';
+                if (options && options.autoHideMs) {
+                    setTimeout(function() { hideStatusBanner(); }, options.autoHideMs);
+                }
+            } else if (state === 'cached') {
+                messageEl.textContent = 'ℹ Course data from ' + (options && options.relativeTime ? options.relativeTime : 'cache');
+            } else if (state === 'offline') {
+                const dateStr = options && options.date ? new Date(options.date).toLocaleDateString(undefined, { dateStyle: 'medium' }) : 'unknown';
+                messageEl.textContent = '⚠️ Live data unavailable. Showing offline data from ' + dateStr + '. Refresh to retry.';
+                const retryBtn = document.createElement('button');
+                retryBtn.type = 'button';
+                retryBtn.className = 'retry-btn';
+                retryBtn.textContent = 'Retry';
+                retryBtn.addEventListener('click', function() {
+                    try { localStorage.removeItem(CACHE_KEY); } catch (e) {}
+                    loadCourses(true);
+                });
+                const dismissBtn = document.createElement('button');
+                dismissBtn.type = 'button';
+                dismissBtn.className = 'dismiss-btn';
+                dismissBtn.textContent = '✕';
+                dismissBtn.setAttribute('aria-label', 'Dismiss');
+                dismissBtn.addEventListener('click', function() { hideStatusBanner(); });
+                actionsEl.appendChild(retryBtn);
+                actionsEl.appendChild(dismissBtn);
+            }
+        }
+
+        function hideStatusBanner() {
+            const banner = document.getElementById('data-status-banner');
+            if (banner) {
+                banner.classList.remove('visible');
+                banner.removeAttribute('data-status');
+            }
+        }
+
+        async function loadCourses(forceRefresh) {
+            const main = document.querySelector('.course-browser-widget .main-content');
+            const errBox = document.getElementById('load-error-box');
+            if (errBox) errBox.remove();
+            if (main) main.style.display = '';
+
+            console.log('[CourseBrowser] Checking localStorage cache...');
+            if (!forceRefresh) {
+                const cached = loadFromCache();
+                if (cached && cached.courses && cached.courses.length > 0) {
+                    const lastUpdated = new Date(cached.last_updated);
+                    const hours = (Date.now() - lastUpdated.getTime()) / (1000 * 60 * 60);
+                    if (hours <= CACHE_TTL_HOURS) {
+                        console.log('[CourseBrowser] Cache hit — data from ' + getRelativeTime(cached.last_updated));
+                        coursesData = cached.courses;
+                        showStatusBanner('cached', { relativeTime: getRelativeTime(cached.last_updated) });
+                        init();
+                        resetRefreshButton();
+                        return;
+                    }
+                }
+                console.log('[CourseBrowser] Cache miss — initiating live scrape');
+            }
+
+            showStatusBanner('loading');
+            const manualRefreshBtn = document.getElementById('manual-refresh-btn');
+            if (manualRefreshBtn) manualRefreshBtn.disabled = true;
+
+            for (let i = 0; i < CORS_PROXIES.length; i++) {
+                const proxyUrl = CORS_PROXIES[i] + encodeURIComponent(SOURCE_URL);
+                console.log('[CourseBrowser] Trying proxy: ' + CORS_PROXIES[i].replace(/\?.*$/, ''));
+                try {
+                    const response = await fetch(proxyUrl);
+                    if (!response.ok) throw new Error('Fetch failed');
+                    const html = await response.text();
+                    const courses = parseListing(html);
+                    if (!courses.length) throw new Error('No courses parsed');
+                    console.log('[CourseBrowser] Proxy succeeded — parsing HTML');
+                    console.log('[CourseBrowser] Parsed ' + courses.length + ' courses from sections');
+                    saveCache(courses);
+                    console.log('[CourseBrowser] Saved to localStorage cache');
+                    coursesData = courses;
+                    showStatusBanner('fresh', { autoHideMs: 5000 });
+                    init();
+                    resetRefreshButton();
+                    if (manualRefreshBtn) manualRefreshBtn.disabled = false;
+                    return;
+                } catch (e) {
+                    continue;
+                }
+            }
+
+            console.log('[CourseBrowser] All proxies failed — loading static fallback');
+            try {
+                const response = await fetch(FALLBACK_JSON_URL);
+                if (!response.ok) throw new Error('Fallback fetch failed');
+                const data = await response.json();
+                let courses = data.courses || [];
+                courses.forEach(function(c) { applyDefaults(c); });
+                coursesData = courses;
+                console.log('[CourseBrowser] Loaded ' + courses.length + ' courses from courses_cache.json');
+                showStatusBanner('offline', { date: data.last_updated });
+                init();
+                resetRefreshButton();
+                if (manualRefreshBtn) manualRefreshBtn.disabled = false;
+                return;
+            } catch (e2) {
+                console.log('[CourseBrowser] ERROR: ' + (e2 && e2.message ? e2.message : e2));
+            }
+
+            console.error('[CourseBrowser] ERROR: Could not load courses from proxies or fallback');
+            showLoadError();
+            resetRefreshButton();
+            if (manualRefreshBtn) manualRefreshBtn.disabled = false;
+        }
+
+        function resetRefreshButton() {
+            const rb = document.getElementById('manual-refresh-btn');
+            if (rb) rb.disabled = false;
+        }
+
+        function showLoadError() {
+            hideStatusBanner();
+            const main = document.querySelector('.course-browser-widget .main-content');
+            if (main) main.style.display = 'none';
+            const container = document.querySelector('.course-browser-widget .container');
+            const err = document.createElement('div');
+            err.className = 'load-error';
+            err.id = 'load-error-box';
+            err.innerHTML = '<h2>Could not load course list</h2><p>Fetch to the Oxford site may be blocked (e.g. by CORS when opening this file from disk). Open this page from a URL served over HTTP (e.g. <code>python3 -m http.server</code> in this folder, then visit the local URL).</p>';
+            if (container) container.appendChild(err);
+        }
 
         // State management
         const filters = {
@@ -1041,7 +1312,7 @@
         let currentTab = 'all';
         let customPathways = [];
 
-        // Pre-generated learning pathways based on common journeys
+        // Pre-generated learning pathways (course titles must match courses_cache.json / scraped data)
         const preGeneratedPathways = [
             {
                 id: 'beginner-ai',
@@ -1051,8 +1322,7 @@
                 courses: [
                     'Your First Steps with ChatGPT: Introductory Training for Everyone',
                     'Intro to Generative AI: Hands-on session',
-                    'Next Steps with ChatGPT: Advanced Tools and Features',
-                    'Gemini'
+                    'Next Steps with ChatGPT: Advanced Tools and Features'
                 ]
             },
             {
@@ -1077,8 +1347,7 @@
                     'Next Steps with ChatGPT: Advanced Tools and Features',
                     'Introduction to Open Source and Local AI Models: Running AI Locally from Laptops to Servers',
                     'AI and Research: From Personal Productivity to Building Your Own Tools',
-                    'Intelligent AI Agents at Work: Transforming Content Analysis with IntelliDoc - A Hands-On Guide for Oxford Academics',
-                    'Online Presence and AI'
+                    '"Intelligent AI Agents at Work: Transforming Content Analysis with IntelliDoc" A Hands-On Guide for Oxford Academics'
                 ]
             },
             {
@@ -1087,10 +1356,10 @@
                 description: 'Learn practical AI applications to streamline your daily operations and administrative tasks.',
                 type: 'pre-generated',
                 courses: [
-                    'Getting Started on Your AI Journey in Operations (Part 1: Understanding the Basics)',
-                    'Getting Started on Your AI Journey in Operations (Part 2: Using the Tools Effectively)',
-                    'Getting Started on Your AI Journey in Operations (Part 3: Applying AI to Your Work)',
-                    'Thinking About Thinking with AI: Why Self-Knowledge is Your Real Interface'
+                    'Thinking About Thinking with AI: Why Self-Knowledge is Your Real Interface',
+                    '10 Truths About AI That Will Stand the Test of Time',
+                    'Revealing Unknown Unknowns: How to Use ChatGPT as a Strategic Mirror',
+                    'Building a relationship with AI'
                 ]
             },
             {
@@ -1114,7 +1383,7 @@
                     'Thinking About Thinking with AI: Why Self-Knowledge is Your Real Interface',
                     '10 Truths About AI That Will Stand the Test of Time',
                     'Revealing Unknown Unknowns: How to Use ChatGPT as a Strategic Mirror',
-                    'Mapping the Landscape: Understanding AI Agents and Agentic Workflows'
+                    'Mapping the Landscape: Understanding AI Agents: From Simple Assistants to Autonomous Systems'
                 ]
             }
         ];
@@ -1215,8 +1484,8 @@
             const isBookmarked = bookmarks.has(course.title);
             return `
                 <div class="course-card">
-                    <button class="bookmark-btn ${isBookmarked ? 'bookmarked' : ''}" 
-                            onclick="toggleBookmark('${course.title.replace(/'/g, "\\'")}', event)"
+                    <button class="bookmark-btn ${isBookmarked ? 'bookmarked' : ''}"
+                            onclick="toggleBookmark('${course.title.replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/"/g, '&quot;')}', event)"
                             title="${isBookmarked ? 'Remove bookmark' : 'Add bookmark'}">
                         ${isBookmarked ? '★' : '☆'}
                     </button>
@@ -1251,10 +1520,7 @@
         function renderPathways() {
             const container = document.getElementById('pathways-container');
             const allPathways = [...preGeneratedPathways, ...customPathways];
-            
-            console.log('Rendering pathways, bookmarks size:', bookmarks.size);
-            console.log('Bookmarks:', [...bookmarks]);
-            
+
             let html = '';
             
             // Add custom pathway builder button
@@ -1574,9 +1840,8 @@
                 doc.setTextColor(100, 100, 100);
                 
                 const metadata = [];
-                if (course.knowledge) metadata.push(`Knowledge: ${course.knowledge}`);
+                if (course.theme) metadata.push(`Theme: ${course.theme}`);
                 if (course.experience) metadata.push(`Experience: ${course.experience}`);
-                if (course.journey) metadata.push(`Journey: ${course.journey}`);
                 if (course.format) metadata.push(`Format: ${course.format}`);
                 if (course.audience) metadata.push(`Audience: ${course.audience}`);
                 
@@ -1640,12 +1905,17 @@
         function init() {
             loadBookmarks();
             loadCustomPathways();
+            Object.keys(filters).forEach(function(k) { filters[k].clear(); });
             createFilterOptions();
             renderCourses(coursesData);
             updateResultsCount(coursesData.length);
             updateBookmarkCount();
-            
-            document.getElementById('clear-filters').addEventListener('click', clearAllFilters);
+
+            const clearBtn = document.getElementById('clear-filters');
+            if (clearBtn && !clearBtn._bound) {
+                clearBtn._bound = true;
+                clearBtn.addEventListener('click', clearAllFilters);
+            }
         }
 
         // Create filter options dynamically
@@ -1674,7 +1944,9 @@
 
         function createFilterGroup(category, values) {
             const container = document.getElementById(`${category}-filters`);
-            
+            if (!container) return;
+            container.innerHTML = '';
+
             values.forEach(value => {
                 const div = document.createElement('div');
                 div.className = 'filter-option';
@@ -1778,11 +2050,26 @@
             countElement.textContent = `Showing ${count} of ${total} courses`;
         }
 
-        // Initialize when DOM is ready
+        function wireManualRefresh() {
+            const btn = document.getElementById('manual-refresh-btn');
+            if (btn && !btn._bound) {
+                btn._bound = true;
+                btn.addEventListener('click', function() {
+                    try { localStorage.removeItem(CACHE_KEY); } catch (e) {}
+                    loadCourses(true);
+                });
+            }
+        }
+
+        // Load courses from cache then initialize
         if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', init);
+            document.addEventListener('DOMContentLoaded', function() {
+                wireManualRefresh();
+                loadCourses();
+            });
         } else {
-            init();
+            wireManualRefresh();
+            loadCourses();
         }
     </script>
     </div><!-- end course-browser-widget -->
