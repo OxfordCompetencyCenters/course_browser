@@ -1094,12 +1094,21 @@
             var f = fmt.toLowerCase().trim();
             var hasOnline = f.indexOf('online') !== -1;
             var hasInPerson = f.indexOf('in-person') !== -1 || f.indexOf('in person') !== -1;
-            // Normalize "Online or In Person" and similar variations to "Online and in-person"
-            // Both "Online and in-person" and "Online or In Person" contain "online" and "in person"
             if (hasOnline && hasInPerson) return 'Online and in-person';
             if (hasInPerson) return 'In-person';
             if (hasOnline) return 'Online';
             return fmt.trim();
+        }
+
+        // Returns an array of format categories: ["Online"], ["In-person"], or ["Online", "In-person"]
+        function getFormatCategories(fmt) {
+            var f = (fmt || '').toLowerCase().trim();
+            var hasOnline = f.indexOf('online') !== -1;
+            var hasInPerson = f.indexOf('in-person') !== -1 || f.indexOf('in person') !== -1;
+            var cats = [];
+            if (hasOnline) cats.push('Online');
+            if (hasInPerson) cats.push('In-person');
+            return cats.length > 0 ? cats : ['Online', 'In-person'];
         }
 
         function normalizeAudience(aud) {
@@ -1119,7 +1128,7 @@
 
         function applyDefaults(course) {
             course.audience = normalizeAudience(course.audience) || 'All';
-            course.format = normalizeFormat(course.format) || 'Online or In Person';
+            course.format = normalizeFormat(course.format);
             course.tags = course.tags || '';
         }
 
@@ -1251,7 +1260,7 @@
                         console.log('[CourseBrowser] Cache hit — data from ' + getRelativeTime(cached.last_updated));
                         coursesData = cached.courses;
                         coursesData.forEach(function(c) {
-                            c.format = normalizeFormat(c.format) || 'Online or In Person';
+                            c.format = normalizeFormat(c.format);
                         });
                         showStatusBanner('cached', { relativeTime: getRelativeTime(cached.last_updated) });
                         init();
@@ -1529,7 +1538,7 @@
                     <div class="course-meta">
                         ${course.theme ? `<span class="meta-badge badge-theme">${course.theme}</span>` : ''}
                         ${course.experience ? `<span class="meta-badge badge-experience">${course.experience}</span>` : ''}
-                        ${course.format ? `<span class="meta-badge badge-format">${course.format}</span>` : ''}
+                        ${getFormatCategories(course.format).map(function(cat) { return '<span class="meta-badge badge-format">' + cat + '</span>'; }).join('')}
                         ${course.audience ? `<span class="meta-badge badge-audience">${course.audience}</span>` : ''}
                     </div>
                     ${course.tags ? `
@@ -1873,7 +1882,8 @@
                 const metadata = [];
                 if (course.theme) metadata.push(`Theme: ${course.theme}`);
                 if (course.experience) metadata.push(`Experience: ${course.experience}`);
-                if (course.format) metadata.push(`Format: ${course.format}`);
+                var fmtCats = getFormatCategories(course.format);
+                if (fmtCats.length > 0) metadata.push(`Format: ${fmtCats.join(', ')}`);
                 if (course.audience) metadata.push(`Audience: ${course.audience}`);
                 
                 if (metadata.length > 0) {
@@ -1962,10 +1972,9 @@
             coursesData.forEach(course => {
                 if (course.theme) categories.theme.add(course.theme);
                 if (course.experience) categories.experience.add(course.experience);
-                if (course.format) {
-                    const normalized = normalizeFormat(course.format) || 'Online or In Person';
-                    categories.format.add(normalized);
-                }
+                getFormatCategories(course.format).forEach(function(cat) {
+                    categories.format.add(cat);
+                });
                 if (course.audience) categories.audience.add(course.audience);
             });
 
@@ -2052,7 +2061,7 @@
                 // Check each filter category
                 const matchesTheme = filters.theme.size === 0 || filters.theme.has(course.theme);
                 const matchesExperience = filters.experience.size === 0 || filters.experience.has(course.experience);
-                const matchesFormat = filters.format.size === 0 || filters.format.has(course.format);
+                const matchesFormat = filters.format.size === 0 || getFormatCategories(course.format).some(function(cat) { return filters.format.has(cat); });
                 const matchesAudience = filters.audience.size === 0 || filters.audience.has(course.audience);
                 
                 return matchesTheme && matchesExperience && matchesFormat && matchesAudience;
