@@ -1,0 +1,228 @@
+{
+  "last_updated": "2026-03-09T22:12:21.654887+00:00",
+  "source_url": "https://oerc.ox.ac.uk/ai-centre/training-events/workshops-and-webinars",
+  "courses": [
+    {
+      "title": "Your First Steps with ChatGPT: Introductory Training for Everyone",
+      "link": "https://oerc.ox.ac.uk/ai-centre/training-events/workshops-and-webinars/your-first-steps-with-chatgpt",
+      "theme": "General AI",
+      "date": "Multiple dates available",
+      "audience": "Staff",
+      "format": "Online and in-person",
+      "experience": "Level 1: Never used AI",
+      "tags": ""
+    },
+    {
+      "title": "Next Steps with ChatGPT: Advanced Tools and Features",
+      "link": "https://oerc.ox.ac.uk/ai-centre/training-events/workshops-and-webinars/next-steps-with-chatgpt",
+      "theme": "General AI",
+      "date": "Multiple dates available",
+      "audience": "Staff",
+      "format": "Online and in-person",
+      "experience": "Level 2: Sometimes use AI",
+      "tags": ""
+    },
+    {
+      "title": "Your First Steps with Gemini: Introductory Training for Everyone",
+      "link": "https://oerc.ox.ac.uk/ai-centre/training-events/workshops-and-webinars/your-first-steps-with-gemini",
+      "theme": "General AI",
+      "date": "Multiple dates available",
+      "audience": "Staff",
+      "format": "Online and in-person",
+      "experience": "Level 1: Never used AI",
+      "tags": ""
+    },
+    {
+      "title": "Making Good Learning Decisions with Generative AI",
+      "link": "https://oerc.ox.ac.uk/ai-centre/training-events/workshops-and-webinars/student-training",
+      "theme": "General AI",
+      "date": "Multiple dates available",
+      "audience": "Students",
+      "format": "In-person",
+      "experience": "Open to all",
+      "tags": ""
+    },
+    {
+      "title": "Intro to Generative AI: Hands-on session",
+      "link": "https://oerc.ox.ac.uk/ai-centre/training-events/workshops-and-webinars/intro-to-generative-ai-hands-on-session",
+      "theme": "General AI",
+      "date": "Multiple dates available",
+      "audience": "Staff and students",
+      "format": "In-person",
+      "experience": "Level 1: Never used AI",
+      "tags": ""
+    },
+    {
+      "title": "Mapping the Landscape: Introduction to Coding with AI for Everyone: Empowering Non-Programmers to Create with AI",
+      "link": "https://oerc.ox.ac.uk/ai-centre/ai-centre-trainings/mapping-the-landscape-introduction-to-coding-with-ai-for-everyone",
+      "theme": "Coding & Development",
+      "date": "Next date to be confirmed",
+      "audience": "All",
+      "format": "Online",
+      "experience": "Level 2: Sometimes use AI",
+      "tags": ""
+    },
+    {
+      "title": "Introduction to Open Source and Local AI Models: Running AI Locally from Laptops to Servers",
+      "link": "https://oerc.ox.ac.uk/ai-centre/ai-centre-trainings/introduction-to-open-source-and-local-ai-models",
+      "theme": "General AI",
+      "date": "Next date to be confirmed",
+      "audience": "All",
+      "format": "Online",
+      "experience": "Level 2: Sometimes use AI",
+      "tags": ""
+    },
+    {
+      "title": "Mapping the Landscape: Understanding AI Agents: From Simple Assistants to Autonomous Systems",
+      "link": "https://oerc.ox.ac.uk/ai-centre/ai-centre-trainings/mapping-the-landscape-understanding-ai-agents",
+      "theme": "General AI",
+      "date": "3 March, 12:30 - 13:30",
+      "audience": "All",
+      "format": "Online",
+      "experience": "Level 2: Sometimes use AI",
+      "tags": ""
+    },
+    {
+      "title": "Building Large Language Model Powered Chatbots with Microsoft tools",
+      "link": "https://oerc.ox.ac.uk/ai-centre/ai-centre-trainings/building-large-language-model-powered-chatbots-with-microsoft-tools",
+      "theme": "Operations & Admin",
+      "date": "Next date to be confirmed",
+      "audience": "All",
+      "format": "Online",
+      "experience": "Level 2: Sometimes use AI",
+      "tags": ""
+    },
+    {
+      "title": "Thinking About Thinking with AI: Why Self-Knowledge is Your Real Interface",
+      "link": "https://oerc.ox.ac.uk/ai-centre/ai-centre-trainings/thinking-about-thinking-with-ai-why-self-knowledge-is-your-real-interface",
+      "theme": "Operations & Admin",
+      "date": "6 May, 14:00 - 15:30",
+      "audience": "All",
+      "format": "In-person",
+      "experience": "Open to all",
+      "tags": ""
+    },
+    {
+      "title": "10 Truths About AI That Will Stand the Test of Time",
+      "link": "https://oerc.ox.ac.uk/ai-centre/ai-centre-trainings/10-truths-about-ai-that-will-stand-the-test-of-time",
+      "theme": "Operations & Admin",
+      "date": "13 May, 14:00 - 15:30",
+      "audience": "All",
+      "format": "In-person",
+      "experience": "Open to all",
+      "tags": ""
+    },
+    {
+      "title": "Revealing Unknown Unknowns: How to Use ChatGPT as a Strategic Mirror",
+      "link": "https://oerc.ox.ac.uk/ai-centre/ai-centre-trainings/revealing-unknown-unknowns",
+      "theme": "Operations & Admin",
+      "date": "4 June, 14:00 - 15:30",
+      "audience": "All",
+      "format": "In-person",
+      "experience": "Level 2: Sometimes use AI",
+      "tags": ""
+    },
+    {
+      "title": "Building a relationship with AI",
+      "link": "https://oerc.ox.ac.uk/ai-centre/ai-centre-trainings/building-a-relationship-with-ai",
+      "theme": "Operations & Admin",
+      "date": "12 March, 11:00 - 12:00",
+      "audience": "All",
+      "format": "Online",
+      "experience": "Level 2: Sometimes use AI",
+      "tags": ""
+    },
+    {
+      "title": "AI and Online Presence",
+      "link": "https://oerc.ox.ac.uk/ai-centre/ai-centre-trainings/ai-and-online-presence",
+      "theme": "Operations & Admin",
+      "date": "25 March, 10:00 - 11:30",
+      "audience": "All",
+      "format": "In-person",
+      "experience": "Level 2: Sometimes use AI",
+      "tags": ""
+    },
+    {
+      "title": "Practical AI Fundamentals: LLM Behaviour, Prompts, and Risk Reduction",
+      "link": "https://oerc.ox.ac.uk/ai-centre/ai-centre-trainings/practical-ai-fundamentals",
+      "theme": "Operations & Admin",
+      "date": "28 April, 14:00 - 15:00",
+      "audience": "All",
+      "format": "In-person",
+      "experience": "Open to all",
+      "tags": ""
+    },
+    {
+      "title": "AI in the Writing Process: Rethinking Authorship and Assessment",
+      "link": "https://oerc.ox.ac.uk/ai-centre/ai-centre-trainings/ai-in-the-writing-process-rethinking-authorship-and-assessment",
+      "theme": "Teaching & Education",
+      "date": "30 April, 14:00 - 15:30",
+      "audience": "Educators",
+      "format": "In-person",
+      "experience": "Level 2: Sometimes use AI",
+      "tags": ""
+    },
+    {
+      "title": "Beyond Detection: Navigating AI Tools and Ethical Practice in Education",
+      "link": "https://oerc.ox.ac.uk/ai-centre/ai-centre-trainings/beyond-detection-navigating-ai-tools-and-ethical-practice-in-education",
+      "theme": "Teaching & Education",
+      "date": "5 May, 11:00 - 12:30",
+      "audience": "Educators",
+      "format": "Online",
+      "experience": "Level 2: Sometimes use AI",
+      "tags": ""
+    },
+    {
+      "title": "From Zero to App Development with Generative AI",
+      "link": "https://oerc.ox.ac.uk/ai-centre/ai-centre-trainings/from-zero-to-app-development-with-generative-ai",
+      "theme": "Coding & Development",
+      "date": "14 April, 10:00 - 11:30",
+      "audience": "All",
+      "format": "Online",
+      "experience": "Level 2: Sometimes use AI",
+      "tags": ""
+    },
+    {
+      "title": "Inside the Google Agent Stack: A Deep Dive into Google agent Visual Builder , Agent Garden, and Web ADK",
+      "link": "https://oerc.ox.ac.uk/ai-centre/ai-centre-trainings/inside-the-google-agent-stack",
+      "theme": "Coding & Development",
+      "date": "26 May, 11:00 - 13:00",
+      "audience": "All",
+      "format": "Online",
+      "experience": "Level 2: Sometimes use AI",
+      "tags": ""
+    },
+    {
+      "title": "AI and Research: From Personal Productivity to Building Your Own Tools",
+      "link": "https://oerc.ox.ac.uk/ai-centre/ai-centre-trainings/ai-for-researchers",
+      "theme": "Research",
+      "date": "Next date to be confirmed",
+      "audience": "Researchers",
+      "format": "In-person",
+      "experience": "Level 2: Sometimes use AI",
+      "tags": ""
+    },
+    {
+      "title": "Can Creativity Be Automated? A Real-Time Showdown Between Artist and AI",
+      "link": "https://skills.it.ox.ac.uk/resource-finder#/course/OXFORDXU4U/ST064",
+      "theme": "General AI",
+      "date": "4 March, 13:30 - 14:30",
+      "audience": "All",
+      "format": "",
+      "experience": "Level 2: Sometimes use AI",
+      "tags": "",
+      "training_provider": "Digital Capabilities"
+    },
+    {
+      "title": "Microsoft 365 Copilot: Practical AI for professional services",
+      "link": "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=G96VzPWXk0-0uv5ouFLPkeVpLS_Tl59AlLoX4WFoBIhUNVQxRkY3ODlNNEtROVVSVTBNNEFMSVZIOS4u",
+      "theme": "General AI",
+      "date": "2 March, 14:00 - 15:00; 4 March, 11:00 - 12:00",
+      "audience": "All",
+      "format": "",
+      "experience": "Level 2: Sometimes use AI",
+      "tags": "",
+      "training_provider": "Microsoft"
+    }
+  ]
+}

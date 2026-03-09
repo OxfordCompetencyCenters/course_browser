@@ -757,14 +757,12 @@
             display: flex;
         }
 
-        .course-browser-widget .status-banner.loading,
-        .course-browser-widget .status-banner.loading-details {
+        .course-browser-widget .status-banner.loading {
             background: #fff3cd;
             color: #002147;
         }
 
-        .course-browser-widget .status-banner.loading .status-spinner,
-        .course-browser-widget .status-banner.loading-details .status-spinner {
+        .course-browser-widget .status-banner.loading .status-spinner {
             display: inline-block;
             width: 14px;
             height: 14px;
@@ -947,208 +945,12 @@
     </div>
 
     <script>
-        // Self-contained: scrape from Oxford page and cache in localStorage (no Python at runtime)
-        const SOURCE_URL = 'https://oerc.ox.ac.uk/ai-centre/training-events/workshops-and-webinars';
-        const LISTING_URL = SOURCE_URL;
-        const BASE_URL = 'https://oerc.ox.ac.uk';
+        // Course data is synced server-side by GitHub Actions and served as a static JSON file.
+        // The HTML fetches the JSON on load. localStorage is used as a speed cache for instant rendering.
+        const CACHE_JSON_URL = 'https://emw-lab.github.io/AI-course-browser/courses_cache.json';
         const CACHE_KEY = 'courseBrowserCache';
-        const CACHE_MAX_AGE_HOURS = 24;
         const CACHE_TTL_HOURS = 24;
-        const CORS_PROXIES = [
-            'https://api.allorigins.win/raw?url=',
-            'https://corsproxy.io/?',
-            'https://api.codetabs.com/v1/proxy?quest='
-        ];
-        const THEME_MAP = {
-            'Getting Started with AI at Oxford': 'General AI',
-            'AI at Oxford': 'General AI',
-            'Mapping the Landscape': 'General AI',
-            'AI for Strategic Thinking and Operations': 'Operations & Admin',
-            'AI in Education': 'Teaching & Education',
-            'AI for Coding': 'Coding & Development',
-            'AI for Researchers': 'Research',
-            'Other training': 'General AI'
-        };
         let coursesData = [];
-
-        function normalizeUrl(href) {
-            if (!href || !href.trim()) return '';
-            href = href.trim();
-            if (href.startsWith('/')) return BASE_URL + href;
-            return href;
-        }
-
-        function getText(el) { return el ? (el.textContent || '').trim() : ''; }
-
-        function getDateCellText(td) {
-            if (!td || !td.textContent) return '';
-            const parts = td.textContent.split(/\n/).map(s => s.trim()).filter(Boolean);
-            return parts.length ? parts.join('; ') : '';
-        }
-
-        function parseTableAiAtOxford(table, sectionHeading) {
-            const courses = [];
-            const theme = THEME_MAP[sectionHeading] || 'General AI';
-            const rows = table.querySelectorAll('tr');
-            if (!rows.length) return courses;
-            for (let i = 1; i < rows.length; i++) {
-                const tds = rows[i].querySelectorAll('td');
-                if (tds.length < 2) continue;
-                const a = tds[0].querySelector('a');
-                const title = getText(a || tds[0]);
-                const href = a ? (a.getAttribute('href') || '') : '';
-                const audience = getText(tds[1]);
-                const format_ = tds[2] ? getText(tds[2]) : '';
-                if (!title) continue;
-                courses.push({ title, link: normalizeUrl(href), theme, date: 'Multiple dates available', audience, format: format_, experience: '', tags: '', training_provider: '' });
-            }
-            return courses;
-        }
-
-        function parseTableTwoCols(table, sectionHeading) {
-            const courses = [];
-            const theme = THEME_MAP[sectionHeading] || 'General AI';
-            var sectionAudience = '';
-            if (/AI for Researchers/i.test(sectionHeading)) sectionAudience = 'Researchers';
-            else if (/AI in Education/i.test(sectionHeading)) sectionAudience = 'Educators';
-            const rows = table.querySelectorAll('tr');
-            for (let i = 1; i < rows.length; i++) {
-                const tds = rows[i].querySelectorAll('td');
-                if (tds.length < 1) continue;
-                const a = tds[0].querySelector('a');
-                const title = getText(a || tds[0]);
-                const href = a ? (a.getAttribute('href') || '') : '';
-                const dateText = tds[1] ? getDateCellText(tds[1]) : '';
-                if (!title) continue;
-                courses.push({ title, link: normalizeUrl(href), theme, date: dateText, audience: sectionAudience, format: '', experience: '', tags: '', training_provider: '' });
-            }
-            return courses;
-        }
-
-        function parseTableOtherTraining(table, sectionHeading) {
-            const courses = [];
-            const theme = THEME_MAP[sectionHeading] || 'General AI';
-            const rows = table.querySelectorAll('tr');
-            for (let i = 1; i < rows.length; i++) {
-                const tds = rows[i].querySelectorAll('td');
-                if (tds.length < 2) continue;
-                const a = tds[0].querySelector('a');
-                const title = getText(a || tds[0]);
-                const href = a ? (a.getAttribute('href') || '') : '';
-                const provider = getText(tds[1]);
-                const dateText = tds[2] ? getDateCellText(tds[2]) : '';
-                if (!title) continue;
-                courses.push({ title, link: normalizeUrl(href), theme, date: dateText, audience: '', format: '', experience: '', tags: '', training_provider: provider });
-            }
-            return courses;
-        }
-
-        function looksLikeDate(s) {
-            if (!s) return false;
-            const t = s.toLowerCase();
-            return t.indexOf('multiple') !== -1 || t.indexOf('on demand') !== -1 || t.indexOf('date') !== -1 || /\d/.test(s);
-        }
-
-        function deduplicateCourses(courses) {
-            const byKey = {};
-            courses.forEach(function(c) {
-                const key = (c.title || '') + '|' + (c.link || '');
-                if (!byKey[key]) byKey[key] = Object.assign({}, c);
-                else {
-                    const ex = byKey[key];
-                    ['date', 'audience', 'format', 'experience', 'tags'].forEach(function(k) {
-                        if (c[k] && (!ex[k] || (k === 'date' && looksLikeDate(c[k]) && !looksLikeDate(ex[k])))) ex[k] = c[k];
-                    });
-                }
-            });
-            return Object.keys(byKey).map(function(k) { return byKey[k]; });
-        }
-
-        // Parse an individual course detail page HTML and extract authoritative fields
-        function parseCourseDetailPage(html) {
-            var doc = new DOMParser().parseFromString(html, 'text/html');
-            var body = doc.body ? doc.body.textContent : '';
-            var detail = {};
-
-            // Extract Location (format) and Date & Time from <h4> headings
-            var h4s = doc.querySelectorAll('h4');
-            h4s.forEach(function(h4) {
-                var txt = (h4.textContent || '').trim();
-                if (/^location$/i.test(txt)) {
-                    var next = h4.nextElementSibling || h4.nextSibling;
-                    if (next) {
-                        var val = (next.textContent || '').trim();
-                        if (val) detail.format = val;
-                    }
-                }
-                if (/^date\s*[&]\s*time$/i.test(txt)) {
-                    var next2 = h4.nextElementSibling || h4.nextSibling;
-                    if (next2) {
-                        var val2 = (next2.textContent || '').trim();
-                        if (val2) detail.date = val2;
-                    }
-                }
-            });
-
-            // Extract Audience Exposure Level (experience)
-            var expMatch = body.match(/Audience Exposure Level[:\s]*([^\n]+)/i);
-            if (expMatch) {
-                var expVal = expMatch[1].trim();
-                if (expVal) detail.experience = expVal;
-            }
-
-            return detail;
-        }
-
-        // Fetch detail pages for internal courses in batches, updating progress banner
-        async function fetchCourseDetails(courses, workingProxy) {
-            var MAX_CONCURRENT = 3;
-            var internalCourses = courses.filter(function(c) {
-                return c.link && c.link.indexOf('oerc.ox.ac.uk') !== -1;
-            });
-            var total = internalCourses.length;
-            if (!total) return;
-            console.log('[CourseBrowser] Fetching detail pages for ' + total + ' internal courses...');
-            var completed = 0;
-            showStatusBanner('loading-details', { completed: 0, total: total });
-
-            for (var i = 0; i < internalCourses.length; i += MAX_CONCURRENT) {
-                var batch = internalCourses.slice(i, i + MAX_CONCURRENT);
-                var promises = batch.map(function(course) {
-                    return (async function() {
-                        try {
-                            var url = workingProxy + encodeURIComponent(course.link);
-                            var resp = await fetch(url);
-                            if (!resp.ok) throw new Error('HTTP ' + resp.status);
-                            var html = await resp.text();
-                            var detail = parseCourseDetailPage(html);
-                            // Merge authoritative fields into course object
-                            if (detail.format) course.format = normalizeFormat(detail.format);
-                            if (detail.experience) course.experience = normalizeExperience(detail.experience);
-                            // Only override date if listing page had no date
-                            if (detail.date && !course.date) course.date = detail.date;
-                            console.log('[CourseBrowser] Detail OK: ' + course.title);
-                        } catch (e) {
-                            console.log('[CourseBrowser] Detail FAIL for: ' + course.title + ' (' + (e && e.message ? e.message : e) + ')');
-                        }
-                    })();
-                });
-                await Promise.all(promises);
-                completed += batch.length;
-                showStatusBanner('loading-details', { completed: completed, total: total });
-            }
-            console.log('[CourseBrowser] Detail fetching complete (' + completed + '/' + total + ')');
-        }
-
-        function findNextTable(el) {
-            el = el.nextElementSibling;
-            while (el) {
-                if (el.tagName === 'TABLE') return el;
-                if (el.tagName === 'H2') return null;
-                el = el.nextElementSibling;
-            }
-            return null;
-        }
 
         // Normalize experience strings to canonical forms
         function normalizeExperience(exp) {
@@ -1163,29 +965,6 @@
             return exp.trim();
         }
 
-        function assignExperience(course) {
-            // If experience was already set from detail page, keep it
-            if (course.experience) return;
-            // Fallback: heuristic based on title keywords
-            const t = (course.title || '').toLowerCase();
-            if (/first steps|introductory|intro to|getting started/i.test(t)) {
-                course.experience = 'Level 1: Never used AI';
-                return;
-            }
-            if (/10 truths|building a relationship/i.test(t)) {
-                course.experience = 'Open to all';
-                return;
-            }
-            if (/next steps|advanced|building|from zero/i.test(t)) {
-                course.experience = 'Level 2: Sometimes use AI';
-                return;
-            }
-            if (/open source|local ai models/i.test(t)) {
-                course.experience = 'Level 3: Use AI on a daily basis';
-                return;
-            }
-            course.experience = 'Level 2: Sometimes use AI';
-        }
 
         function normalizeFormat(fmt) {
             if (!fmt) return '';
@@ -1249,49 +1028,10 @@
             course.tags = course.tags || '';
         }
 
-        function parseListing(html) {
-            const doc = new DOMParser().parseFromString(html, 'text/html');
-            const all = [];
-            const h2s = doc.querySelectorAll('h2');
-            h2s.forEach(function(h2) {
-                const heading = getText(h2);
-                let tbl = findNextTable(h2);
-                if (!tbl) return;
-                if (heading.indexOf('Other training') !== -1) {
-                    all.push.apply(all, parseTableOtherTraining(tbl, heading));
-                    return;
-                }
-                if (heading.indexOf('Getting Started with AI at Oxford') !== -1 || heading.indexOf('AI at Oxford') !== -1) {
-                    const firstRow = tbl.querySelector('tr');
-                    const ncols = firstRow ? firstRow.querySelectorAll('th, td').length : 0;
-                    if (ncols >= 3) {
-                        all.push.apply(all, parseTableAiAtOxford(tbl, heading));
-                    } else {
-                        const table2 = findNextTable(tbl);
-                        if (table2) {
-                            const r2 = table2.querySelector('tr');
-                            if (r2 && r2.querySelectorAll('th, td').length >= 3) all.push.apply(all, parseTableAiAtOxford(table2, heading));
-                            else all.push.apply(all, parseTableTwoCols(tbl, heading));
-                        } else all.push.apply(all, parseTableTwoCols(tbl, heading));
-                    }
-                    return;
-                }
-                all.push.apply(all, parseTableTwoCols(tbl, heading));
-            });
-            const deduped = deduplicateCourses(all);
-            deduped.forEach(function(c) {
-                if (c.theme === 'General AI' && /mapping the landscape/i.test(c.title || '') && /coding|code/i.test(c.title || '')) {
-                    c.theme = 'Coding & Development';
-                }
-                assignExperience(c);
-                applyDefaults(c);
-            });
-            return deduped;
-        }
 
-        function saveCache(courses) {
+        function saveCache(courses, serverTimestamp) {
             try {
-                localStorage.setItem(CACHE_KEY, JSON.stringify({ last_updated: new Date().toISOString(), courses: courses }));
+                localStorage.setItem(CACHE_KEY, JSON.stringify({ last_updated: serverTimestamp || new Date().toISOString(), courses: courses }));
             } catch (e) {}
         }
 
@@ -1324,10 +1064,6 @@
             actionsEl.innerHTML = '';
             if (state === 'loading') {
                 messageEl.innerHTML = '<span class="status-spinner"></span> Fetching latest course data...';
-            } else if (state === 'loading-details') {
-                var c = (options && options.completed) || 0;
-                var t = (options && options.total) || '?';
-                messageEl.innerHTML = '<span class="status-spinner"></span> Fetching course details... ' + c + '/' + t;
             } else if (state === 'fresh') {
                 messageEl.textContent = '✓ Course data updated just now';
                 if (options && options.autoHideMs) {
@@ -1370,66 +1106,73 @@
             const errBox = document.getElementById('load-error-box');
             if (errBox) errBox.remove();
             if (main) main.style.display = '';
+            const manualRefreshBtn = document.getElementById('manual-refresh-btn');
 
+            // Step 1: Render instantly from localStorage if available
             console.log('[CourseBrowser] Checking localStorage cache...');
             if (!forceRefresh) {
                 const cached = loadFromCache();
                 if (cached && cached.courses && cached.courses.length > 0) {
-                    const lastUpdated = new Date(cached.last_updated);
-                    const hours = (Date.now() - lastUpdated.getTime()) / (1000 * 60 * 60);
-                    if (hours <= CACHE_TTL_HOURS) {
-                        console.log('[CourseBrowser] Cache hit — data from ' + getRelativeTime(cached.last_updated));
-                        coursesData = cached.courses;
-                        coursesData.forEach(function(c) {
-                            c.format = normalizeFormat(c.format);
-                            c.experience = normalizeExperience(c.experience);
-                        });
-                        showStatusBanner('cached', { relativeTime: getRelativeTime(cached.last_updated) });
-                        init();
-                        resetRefreshButton();
-                        return;
-                    }
-                }
-                console.log('[CourseBrowser] Cache miss — initiating live scrape');
-            }
-
-            showStatusBanner('loading');
-            const manualRefreshBtn = document.getElementById('manual-refresh-btn');
-            if (manualRefreshBtn) manualRefreshBtn.disabled = true;
-
-            for (let i = 0; i < CORS_PROXIES.length; i++) {
-                const proxyUrl = CORS_PROXIES[i] + encodeURIComponent(SOURCE_URL);
-                console.log('[CourseBrowser] Trying proxy: ' + CORS_PROXIES[i].replace(/\?.*$/, ''));
-                try {
-                    const response = await fetch(proxyUrl);
-                    if (!response.ok) throw new Error('Fetch failed');
-                    const html = await response.text();
-                    const courses = parseListing(html);
-                    if (!courses.length) throw new Error('No courses parsed');
-                    console.log('[CourseBrowser] Proxy succeeded — parsing HTML');
-                    console.log('[CourseBrowser] Parsed ' + courses.length + ' courses from sections');
-                    // Fetch detail pages for each course using the same working proxy
-                    await fetchCourseDetails(courses, CORS_PROXIES[i]);
-                    // Re-apply defaults after detail pages have set authoritative fields
-                    courses.forEach(function(c) { applyDefaults(c); });
-                    saveCache(courses);
-                    console.log('[CourseBrowser] Saved to localStorage cache');
-                    coursesData = courses;
-                    showStatusBanner('fresh', { autoHideMs: 5000 });
+                    console.log('[CourseBrowser] Rendering from localStorage (' + cached.courses.length + ' courses)');
+                    coursesData = cached.courses;
+                    coursesData.forEach(function(c) { applyDefaults(c); });
+                    showStatusBanner('cached', { relativeTime: getRelativeTime(cached.last_updated) });
                     init();
-                    resetRefreshButton();
-                    if (manualRefreshBtn) manualRefreshBtn.disabled = false;
-                    return;
-                } catch (e) {
-                    continue;
                 }
             }
 
-            console.error('[CourseBrowser] All proxies failed — could not load courses');
-            showLoadError();
-            resetRefreshButton();
-            if (manualRefreshBtn) manualRefreshBtn.disabled = false;
+            // Step 2: Fetch server JSON in background
+            showStatusBanner('loading');
+            if (manualRefreshBtn) manualRefreshBtn.disabled = true;
+            console.log('[CourseBrowser] Fetching courses_cache.json...');
+
+            try {
+                var response = await fetch(CACHE_JSON_URL + '?t=' + Date.now());
+                if (!response.ok) throw new Error('HTTP ' + response.status);
+                var data = await response.json();
+                if (!data.courses || !data.courses.length) throw new Error('No courses in JSON');
+
+                // Check if server data is newer than localStorage
+                var localCache = loadFromCache();
+                if (localCache && localCache.last_updated === data.last_updated && !forceRefresh) {
+                    console.log('[CourseBrowser] Server JSON matches localStorage — no update needed');
+                    showStatusBanner('cached', { relativeTime: getRelativeTime(data.last_updated) });
+                    if (!coursesData.length) {
+                        coursesData = data.courses;
+                        coursesData.forEach(function(c) { applyDefaults(c); });
+                        init();
+                    }
+                    resetRefreshButton();
+                    return;
+                }
+
+                // Update with server data
+                console.log('[CourseBrowser] Loaded ' + data.courses.length + ' courses from server');
+                coursesData = data.courses;
+                coursesData.forEach(function(c) { applyDefaults(c); });
+                saveCache(coursesData, data.last_updated);
+                showStatusBanner('fresh', { autoHideMs: 5000 });
+                init();
+                resetRefreshButton();
+            } catch (e) {
+                console.error('[CourseBrowser] Failed to fetch courses_cache.json:', e.message || e);
+                // If we already rendered from localStorage, show offline banner
+                if (coursesData.length > 0) {
+                    var cached2 = loadFromCache();
+                    showStatusBanner('offline', { date: cached2 ? cached2.last_updated : null });
+                } else {
+                    showLoadError();
+                }
+                resetRefreshButton();
+            }
         }
+
+        // Console-callable function to force re-fetch from server
+        window.triggerSync = function() {
+            console.log('[CourseBrowser] triggerSync() — clearing cache and re-fetching...');
+            try { localStorage.removeItem(CACHE_KEY); } catch (e) {}
+            loadCourses(true);
+        };
 
         function resetRefreshButton() {
             const rb = document.getElementById('manual-refresh-btn');
@@ -1444,7 +1187,7 @@
             const err = document.createElement('div');
             err.className = 'load-error';
             err.id = 'load-error-box';
-            err.innerHTML = '<h2>Could not load course list</h2><p>Fetch to the Oxford site may be blocked (e.g. by CORS when opening this file from disk). Open this page from a URL served over HTTP (e.g. <code>python3 -m http.server</code> in this folder, then visit the local URL).</p>';
+            err.innerHTML = '<h2>Could not load course data</h2><p>The course data file could not be loaded. Please try refreshing the page. If the issue persists, the data may not yet be available.</p>';
             if (container) container.appendChild(err);
         }
 
