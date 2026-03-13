@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-03-12T03:14:59.400015+00:00",
+  "last_updated": "2026-03-13T03:13:02.249654+00:00",
   "source_url": "https://oerc.ox.ac.uk/ai-centre/training-events/workshops-and-webinars",
   "courses": [
     {
@@ -169,6 +169,16 @@
       "date": "5 May, 11:00 - 12:30",
       "audience": "Educators",
       "format": "Online",
+      "experience": "Level 2: Sometimes use AI",
+      "tags": ""
+    },
+    {
+      "title": "Protecting Learning: Guiding students to avoid cheating themselves with AI",
+      "link": "https://oerc.ox.ac.uk/ai-centre/ai-centre-trainings/protecting-learning",
+      "theme": "Teaching & Education",
+      "date": "7 May, 10:30 - 12:00",
+      "audience": "Educators",
+      "format": "In-person",
       "experience": "Level 2: Sometimes use AI",
       "tags": ""
     },
