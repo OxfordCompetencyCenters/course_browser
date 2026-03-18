@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-03-17T03:15:48.937376+00:00",
+  "last_updated": "2026-03-18T03:20:09.252394+00:00",
   "source_url": "https://oerc.ox.ac.uk/ai-centre/training-events/workshops-and-webinars",
   "courses": [
     {
@@ -80,6 +80,16 @@
       "audience": "All",
       "format": "Online",
       "experience": "Level 2: Sometimes use AI",
+      "tags": ""
+    },
+    {
+      "title": "Getting Started on your AI Journey in Operations",
+      "link": "https://oerc.ox.ac.uk/ai-centre/training-events/workshops-and-webinars/getting-started-on-your-ai-journey-in-operations",
+      "theme": "Operations & Admin",
+      "date": "Available on demand",
+      "audience": "All",
+      "format": "",
+      "experience": "Level 1: Never used AI",
       "tags": ""
     },
     {
