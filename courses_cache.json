@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-03-18T03:20:09.252394+00:00",
+  "last_updated": "2026-03-19T03:20:11.184900+00:00",
   "source_url": "https://oerc.ox.ac.uk/ai-centre/training-events/workshops-and-webinars",
   "courses": [
     {
@@ -223,26 +223,15 @@
       "tags": ""
     },
     {
-      "title": "Can Creativity Be Automated? A Real-Time Showdown Between Artist and AI",
-      "link": "https://skills.it.ox.ac.uk/resource-finder#/course/OXFORDXU4U/ST064",
+      "title": "Copilot Discovery sessions for professional services",
+      "link": "https://oerc.ox.ac.uk/ai-centre/training-events/workshops-and-webinars/copilot-discovery-sessions-for-professional-services-staff",
       "theme": "General AI",
-      "date": "4 March, 13:30 - 14:30",
+      "date": "Every other Wednesday from 25 March, 13:00 - 14:00",
       "audience": "All",
       "format": "",
       "experience": "Level 2: Sometimes use AI",
       "tags": "",
-      "training_provider": "Digital Capabilities"
-    },
-    {
-      "title": "Microsoft 365 Copilot: Practical AI for professional services",
-      "link": "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=G96VzPWXk0-0uv5ouFLPkeVpLS_Tl59AlLoX4WFoBIhUNVQxRkY3ODlNNEtROVVSVTBNNEFMSVZIOS4u",
-      "theme": "General AI",
-      "date": "2 March, 14:00 - 15:00; 4 March, 11:00 - 12:00",
-      "audience": "All",
-      "format": "",
-      "experience": "Level 2: Sometimes use AI",
-      "tags": "",
-      "training_provider": "Microsoft"
+      "training_provider": "Digital Innovation and Microsoft"
     }
   ]
 }
