@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-03-23T03:22:04.241207+00:00",
+  "last_updated": "2026-03-24T03:16:30.255443+00:00",
   "source_url": "https://oerc.ox.ac.uk/ai-centre/training-events/workshops-and-webinars",
   "courses": [
     {
@@ -53,30 +53,30 @@
       "tags": ""
     },
     {
-      "title": "Mapping the Landscape: Introduction to Coding with AI for Everyone: Empowering Non-Programmers to Create with AI",
-      "link": "https://oerc.ox.ac.uk/ai-centre/ai-centre-trainings/mapping-the-landscape-introduction-to-coding-with-ai-for-everyone",
-      "theme": "Coding & Development",
-      "date": "Next date to be confirmed",
+      "title": "Mapping the Landscape: Models, chatbots and apps: Mapping the landscape of the AI frontier",
+      "link": "https://oerc.ox.ac.uk/ai-centre/ai-centre-trainings/mapping-the-landscape-models-chatbots-and-apps-mapping-the-landscape-of-the-ai-frontier",
+      "theme": "General AI",
+      "date": "7 May, 12:00 - 13:00",
       "audience": "All",
       "format": "Online",
       "experience": "Level 2: Sometimes use AI",
       "tags": ""
     },
     {
-      "title": "Introduction to Open Source and Local AI Models: Running AI Locally from Laptops to Servers",
-      "link": "https://oerc.ox.ac.uk/ai-centre/ai-centre-trainings/introduction-to-open-source-and-local-ai-models",
+      "title": "Mapping the Landscape: Understanding AI Agents: Current trends and future directions",
+      "link": "https://oerc.ox.ac.uk/ai-centre/ai-centre-trainings/mapping-the-landscape-understanding-ai-agents-current-trends-and-future-directions",
       "theme": "General AI",
-      "date": "Next date to be confirmed",
+      "date": "12 May, 12:00 - 13:00",
       "audience": "All",
       "format": "Online",
       "experience": "Level 2: Sometimes use AI",
       "tags": ""
     },
     {
-      "title": "Mapping the Landscape: Understanding AI Agents: From Simple Assistants to Autonomous Systems",
-      "link": "https://oerc.ox.ac.uk/ai-centre/ai-centre-trainings/mapping-the-landscape-understanding-ai-agents",
+      "title": "Mapping the landscape of AI uses as a productivity tool for research and knowledge work",
+      "link": "https://oerc.ox.ac.uk/ai-centre/ai-centre-trainings/mapping-the-landscape-of-ai-uses-as-a-productivity-tool-for-research-and-knowledge-work",
       "theme": "General AI",
-      "date": "3 March, 12:30 - 13:30",
+      "date": "19 May, 12:00 - 13:00",
       "audience": "All",
       "format": "Online",
       "experience": "Level 2: Sometimes use AI",
@@ -126,7 +126,7 @@
       "title": "Revealing Unknown Unknowns: How to Use ChatGPT as a Strategic Mirror",
       "link": "https://oerc.ox.ac.uk/ai-centre/ai-centre-trainings/revealing-unknown-unknowns",
       "theme": "Operations & Admin",
-      "date": "4 June, 14:00 - 15:30",
+      "date": "28 May, 14:00 - 15:30",
       "audience": "All",
       "format": "In-person",
       "experience": "Level 2: Sometimes use AI",
