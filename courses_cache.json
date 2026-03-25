@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-03-24T03:16:30.255443+00:00",
+  "last_updated": "2026-03-25T03:19:18.558153+00:00",
   "source_url": "https://oerc.ox.ac.uk/ai-centre/training-events/workshops-and-webinars",
   "courses": [
     {
@@ -93,13 +93,23 @@
       "tags": ""
     },
     {
-      "title": "Building Large Language Model Powered Chatbots with Microsoft tools",
-      "link": "https://oerc.ox.ac.uk/ai-centre/ai-centre-trainings/building-large-language-model-powered-chatbots-with-microsoft-tools",
+      "title": "AI and Online Presence",
+      "link": "https://oerc.ox.ac.uk/ai-centre/ai-centre-trainings/ai-and-online-presence",
       "theme": "Operations & Admin",
-      "date": "Next date to be confirmed",
+      "date": "25 March, 10:00 - 11:30",
       "audience": "All",
-      "format": "Online",
+      "format": "In-person",
       "experience": "Level 2: Sometimes use AI",
+      "tags": ""
+    },
+    {
+      "title": "Practical AI Fundamentals: LLM Behaviour, Prompts, and Risk Reduction",
+      "link": "https://oerc.ox.ac.uk/ai-centre/ai-centre-trainings/practical-ai-fundamentals",
+      "theme": "Operations & Admin",
+      "date": "28 April, 14:00 - 15:00",
+      "audience": "All",
+      "format": "In-person",
+      "experience": "Open to all",
       "tags": ""
     },
     {
@@ -136,30 +146,20 @@
       "title": "Building a relationship with AI",
       "link": "https://oerc.ox.ac.uk/ai-centre/ai-centre-trainings/building-a-relationship-with-ai",
       "theme": "Operations & Admin",
-      "date": "12 March, 11:00 - 12:00",
+      "date": "9 June, 11:00 - 12:00",
       "audience": "All",
       "format": "Online",
       "experience": "Level 2: Sometimes use AI",
       "tags": ""
     },
     {
-      "title": "AI and Online Presence",
-      "link": "https://oerc.ox.ac.uk/ai-centre/ai-centre-trainings/ai-and-online-presence",
+      "title": "Building Large Language Model Powered Chatbots with Microsoft tools",
+      "link": "https://oerc.ox.ac.uk/ai-centre/ai-centre-trainings/building-large-language-model-powered-chatbots-with-microsoft-tools",
       "theme": "Operations & Admin",
-      "date": "25 March, 10:00 - 11:30",
+      "date": "Next date to be confirmed",
       "audience": "All",
-      "format": "In-person",
+      "format": "Online",
       "experience": "Level 2: Sometimes use AI",
-      "tags": ""
-    },
-    {
-      "title": "Practical AI Fundamentals: LLM Behaviour, Prompts, and Risk Reduction",
-      "link": "https://oerc.ox.ac.uk/ai-centre/ai-centre-trainings/practical-ai-fundamentals",
-      "theme": "Operations & Admin",
-      "date": "28 April, 14:00 - 15:00",
-      "audience": "All",
-      "format": "In-person",
-      "experience": "Open to all",
       "tags": ""
     },
     {
