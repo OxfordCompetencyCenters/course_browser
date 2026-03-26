@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-03-25T03:19:18.558153+00:00",
+  "last_updated": "2026-03-26T03:23:36.669693+00:00",
   "source_url": "https://oerc.ox.ac.uk/ai-centre/training-events/workshops-and-webinars",
   "courses": [
     {
@@ -147,16 +147,6 @@
       "link": "https://oerc.ox.ac.uk/ai-centre/ai-centre-trainings/building-a-relationship-with-ai",
       "theme": "Operations & Admin",
       "date": "9 June, 11:00 - 12:00",
-      "audience": "All",
-      "format": "Online",
-      "experience": "Level 2: Sometimes use AI",
-      "tags": ""
-    },
-    {
-      "title": "Building Large Language Model Powered Chatbots with Microsoft tools",
-      "link": "https://oerc.ox.ac.uk/ai-centre/ai-centre-trainings/building-large-language-model-powered-chatbots-with-microsoft-tools",
-      "theme": "Operations & Admin",
-      "date": "Next date to be confirmed",
       "audience": "All",
       "format": "Online",
       "experience": "Level 2: Sometimes use AI",
