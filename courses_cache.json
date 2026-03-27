@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-03-26T03:23:36.669693+00:00",
+  "last_updated": "2026-03-27T03:24:43.901184+00:00",
   "source_url": "https://oerc.ox.ac.uk/ai-centre/training-events/workshops-and-webinars",
   "courses": [
     {
@@ -30,16 +30,6 @@
       "audience": "Staff",
       "format": "Online and in-person",
       "experience": "Level 1: Never used AI",
-      "tags": ""
-    },
-    {
-      "title": "Making Good Learning Decisions with Generative AI",
-      "link": "https://oerc.ox.ac.uk/ai-centre/training-events/workshops-and-webinars/student-training",
-      "theme": "General AI",
-      "date": "Multiple dates available",
-      "audience": "Students",
-      "format": "In-person",
-      "experience": "Open to all",
       "tags": ""
     },
     {
@@ -86,7 +76,7 @@
       "title": "Getting Started on your AI Journey in Operations",
       "link": "https://oerc.ox.ac.uk/ai-centre/training-events/workshops-and-webinars/getting-started-on-your-ai-journey-in-operations",
       "theme": "Operations & Admin",
-      "date": "Available on demand",
+      "date": "Available on-demand",
       "audience": "All",
       "format": "",
       "experience": "Level 1: Never used AI",
@@ -150,6 +140,16 @@
       "audience": "All",
       "format": "Online",
       "experience": "Level 2: Sometimes use AI",
+      "tags": ""
+    },
+    {
+      "title": "Making Good Learning Decisions with Generative AI",
+      "link": "https://oerc.ox.ac.uk/ai-centre/training-events/workshops-and-webinars/student-training",
+      "theme": "Teaching & Education",
+      "date": "Available on-demand",
+      "audience": "Educators",
+      "format": "",
+      "experience": "Open to all",
       "tags": ""
     },
     {
