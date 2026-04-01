@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-03-31T03:24:13.017128+00:00",
+  "last_updated": "2026-04-01T03:25:56.910631+00:00",
   "source_url": "https://oerc.ox.ac.uk/ai-centre/training-events/workshops-and-webinars",
   "courses": [
     {
@@ -70,6 +70,46 @@
       "audience": "All",
       "format": "Online",
       "experience": "Level 2: Sometimes use AI",
+      "tags": ""
+    },
+    {
+      "title": "Evaluating claims about Artificial Intelligence",
+      "link": "https://oerc.ox.ac.uk/ai-centre/ai-centre-trainings/evaluating-claims-about-artificial-intelligence",
+      "theme": "General AI",
+      "date": "22 May, 13:30 - 15:00; 5 June, 13:30 - 15:00",
+      "audience": "All",
+      "format": "In-person",
+      "experience": "Open to all",
+      "tags": ""
+    },
+    {
+      "title": "Exploring AI Foundations: Understanding today's AI in historical context: History of AI until 2017",
+      "link": "https://oerc.ox.ac.uk/ai-centre/ai-centre-trainings/exploring-ai-foundations-understanding-todays-ai-in-historical-context-history-of-ai-until-2017",
+      "theme": "General AI",
+      "date": "2 June, 12:00 - 13:30",
+      "audience": "All",
+      "format": "Online",
+      "experience": "Open to all",
+      "tags": ""
+    },
+    {
+      "title": "Exploring AI Foundations: Understanding Large Language Models through their history: Developments in AI since 2017",
+      "link": "https://oerc.ox.ac.uk/ai-centre/ai-centre-trainings/exploring-ai-foundations-understanding-large-language-models-through-their-history-developments-in-ai-since-2017",
+      "theme": "General AI",
+      "date": "9 June, 12:00 - 13:30",
+      "audience": "All",
+      "format": "Online",
+      "experience": "Open to all",
+      "tags": ""
+    },
+    {
+      "title": "Exploring AI Foundations: Exploring the Impact of AI on Judgement, Expertise and Learning in Historical Context",
+      "link": "https://oerc.ox.ac.uk/ai-centre/ai-centre-trainings/exploring-ai-foundations-exploring-the-impact-of-ai-on-judgement-expertise-and-learning-in-historical-context",
+      "theme": "General AI",
+      "date": "16 June, 12:00 - 13:30",
+      "audience": "All",
+      "format": "Online",
+      "experience": "Open to all",
       "tags": ""
     },
     {
@@ -199,6 +239,16 @@
       "date": "26 May, 11:00 - 13:00",
       "audience": "All",
       "format": "Online",
+      "experience": "Level 2: Sometimes use AI",
+      "tags": ""
+    },
+    {
+      "title": "Using AI Agents Workshops: Using coding agents for project management: Introduction to non-programmers",
+      "link": "https://oerc.ox.ac.uk/ai-centre/ai-centre-trainings/using-ai-agents-workshops-using-coding-agents-for-project-management-introduction-to-non-programmers",
+      "theme": "Coding & Development",
+      "date": "12 June, 10:00 - 13:00",
+      "audience": "All",
+      "format": "In-person",
       "experience": "Level 2: Sometimes use AI",
       "tags": ""
     },
