@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-04-13T03:26:07.483990+00:00",
+  "last_updated": "2026-04-14T03:25:51.770177+00:00",
   "source_url": "https://oerc.ox.ac.uk/ai-centre/training-events/workshops-and-webinars",
   "courses": [
     {
@@ -123,16 +123,6 @@
       "tags": ""
     },
     {
-      "title": "AI and Online Presence",
-      "link": "https://oerc.ox.ac.uk/ai-centre/ai-centre-trainings/ai-and-online-presence",
-      "theme": "Operations & Admin",
-      "date": "25 March, 10:00 - 11:30",
-      "audience": "All",
-      "format": "In-person",
-      "experience": "Level 2: Sometimes use AI",
-      "tags": ""
-    },
-    {
       "title": "Practical AI Fundamentals: LLM Behaviour, Prompts, and Risk Reduction",
       "link": "https://oerc.ox.ac.uk/ai-centre/ai-centre-trainings/practical-ai-fundamentals",
       "theme": "Operations & Admin",
@@ -140,6 +130,16 @@
       "audience": "All",
       "format": "In-person",
       "experience": "Open to all",
+      "tags": ""
+    },
+    {
+      "title": "AI and Online Presence",
+      "link": "https://oerc.ox.ac.uk/ai-centre/ai-centre-trainings/ai-and-online-presence",
+      "theme": "Operations & Admin",
+      "date": "6 May, 14:00 - 15:30",
+      "audience": "All",
+      "format": "In-person",
+      "experience": "Level 2: Sometimes use AI",
       "tags": ""
     },
     {
@@ -247,6 +247,16 @@
       "link": "https://oerc.ox.ac.uk/ai-centre/ai-centre-trainings/using-ai-agents-workshops-using-coding-agents-for-project-management-introduction-to-non-programmers",
       "theme": "Coding & Development",
       "date": "12 June, 10:00 - 13:00",
+      "audience": "All",
+      "format": "In-person",
+      "experience": "Level 2: Sometimes use AI",
+      "tags": ""
+    },
+    {
+      "title": "Using AI Agents Workshops: Using coding agents for working with research data and managing the research process: Introduction to non-programmers",
+      "link": "https://oerc.ox.ac.uk/ai-centre/ai-centre-trainings/using-ai-agents-workshops-using-coding-agents-for-working-with-research-data-and-managing-the-research-process-introduction-to-non-programmers",
+      "theme": "Coding & Development",
+      "date": "19 June, 10:00 - 13:00",
       "audience": "All",
       "format": "In-person",
       "experience": "Level 2: Sometimes use AI",
