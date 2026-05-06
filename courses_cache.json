@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-05-05T03:25:55.351547+00:00",
+  "last_updated": "2026-05-06T03:26:32.156268+00:00",
   "source_url": "https://oerc.ox.ac.uk/ai-centre/training-events/workshops-and-webinars",
   "courses": [
     {
@@ -180,6 +180,16 @@
       "audience": "All",
       "format": "Online",
       "experience": "Level 2: Sometimes use AI",
+      "tags": ""
+    },
+    {
+      "title": "Transferrable skills for working with AI",
+      "link": "https://oerc.ox.ac.uk/ai-centre/ai-centre-trainings/transferrable-skills-for-working-with-ai",
+      "theme": "Operations & Admin",
+      "date": "18 June, 10:00 - 12:00",
+      "audience": "All",
+      "format": "In-person",
+      "experience": "Level 1: Never used AI",
       "tags": ""
     },
     {
