@@ -1,40 +1,30 @@
 {
-  "last_updated": "2026-07-31T03:25:43.706449+00:00",
+  "last_updated": "2026-08-01T03:26:31.733838+00:00",
   "source_url": "https://oerc.ox.ac.uk/ai-centre/training-events/workshops-and-webinars",
   "courses": [
     {
-      "title": "Your First Steps with ChatGPT: Introductory Training for Everyone",
-      "link": "https://oerc.ox.ac.uk/ai-centre/training-events/workshops-and-webinars/your-first-steps-with-chatgpt",
-      "theme": "General AI",
-      "date": "Multiple dates available",
-      "audience": "Staff",
-      "format": "Online and in-person",
-      "experience": "Level 1: Never used AI",
-      "tags": ""
-    },
-    {
-      "title": "Next Steps with ChatGPT: Advanced Tools and Features",
-      "link": "https://oerc.ox.ac.uk/ai-centre/training-events/workshops-and-webinars/next-steps-with-chatgpt",
-      "theme": "General AI",
-      "date": "Multiple dates available",
-      "audience": "Staff",
-      "format": "Online and in-person",
-      "experience": "Level 2: Sometimes use AI",
-      "tags": ""
-    },
-    {
-      "title": "Your First Steps with Gemini: Introductory Training for Everyone",
-      "link": "https://oerc.ox.ac.uk/ai-centre/training-events/workshops-and-webinars/your-first-steps-with-gemini",
+      "title": "New to Generative AI at Oxford",
+      "link": "https://unioxfordnexus.sharepoint.com/sites/OXINTRANET-it-digital/SitePages/find-courses-resources.aspx?courseId=WS104&companyID=OXFORDXU4U#a067df13-03de-49a6-b20d-5fe445758b25",
       "theme": "General AI",
       "date": "Multiple dates available",
       "audience": "Staff",
       "format": "Online",
+      "experience": "Level 2: Sometimes use AI",
+      "tags": ""
+    },
+    {
+      "title": "Your First Steps with Copilot: Professional Services",
+      "link": "https://unioxfordnexus.sharepoint.com/sites/OXINTRANET-it-digital/SitePages/find-courses-resources.aspx?courseId=CC106&companyID=CompCentre#a067df13-03de-49a6-b20d-5fe445758b25",
+      "theme": "General AI",
+      "date": "Multiple dates available",
+      "audience": "Staff",
+      "format": "In-person",
       "experience": "Level 1: Never used AI",
       "tags": ""
     },
     {
-      "title": "Intro to Generative AI: Hands-on session",
-      "link": "https://oerc.ox.ac.uk/ai-centre/training-events/workshops-and-webinars/intro-to-generative-ai-hands-on-session#",
+      "title": "Intro to Generative AI: Hands-on session (Copilot, Gemini and ChatGPT)",
+      "link": "https://unioxfordnexus.sharepoint.com/sites/OXINTRANET-it-digital/SitePages/find-courses-resources.aspx?courseId=WS087&companyID=OXFORDXU4U#a067df13-03de-49a6-b20d-5fe445758b25",
       "theme": "General AI",
       "date": "Multiple dates available",
       "audience": "Staff and students",
