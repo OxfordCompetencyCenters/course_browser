@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-09-16T02:34:59.419713+00:00",
+  "last_updated": "2026-09-17T02:35:13.340265+00:00",
   "source_url": "https://oerc.ox.ac.uk/ai-centre/training-events/workshops-and-webinars",
   "courses": [
     {
@@ -33,76 +33,6 @@
       "tags": ""
     },
     {
-      "title": "Mapping the Landscape: Models, chatbots and apps: Mapping the landscape of the AI frontier",
-      "link": "https://oerc.ox.ac.uk/ai-centre/ai-centre-trainings/mapping-the-landscape-models-chatbots-and-apps-mapping-the-landscape-of-the-ai-frontier",
-      "theme": "General AI",
-      "date": "7 May, 12:00 - 13:00",
-      "audience": "All",
-      "format": "Online",
-      "experience": "Level 2: Sometimes use AI",
-      "tags": ""
-    },
-    {
-      "title": "Mapping the Landscape: Understanding AI Agents: Current trends and future directions",
-      "link": "https://oerc.ox.ac.uk/ai-centre/ai-centre-trainings/mapping-the-landscape-understanding-ai-agents-current-trends-and-future-directions",
-      "theme": "General AI",
-      "date": "12 May, 12:00 - 13:00",
-      "audience": "All",
-      "format": "Online",
-      "experience": "Level 2: Sometimes use AI",
-      "tags": ""
-    },
-    {
-      "title": "Mapping the landscape of AI uses as a productivity tool for research and knowledge work",
-      "link": "https://oerc.ox.ac.uk/ai-centre/ai-centre-trainings/mapping-the-landscape-of-ai-uses-as-a-productivity-tool-for-research-and-knowledge-work",
-      "theme": "General AI",
-      "date": "19 May, 12:00 - 13:00",
-      "audience": "All",
-      "format": "Online",
-      "experience": "Level 2: Sometimes use AI",
-      "tags": ""
-    },
-    {
-      "title": "Evaluating claims about Artificial Intelligence",
-      "link": "https://oerc.ox.ac.uk/ai-centre/ai-centre-trainings/evaluating-claims-about-artificial-intelligence",
-      "theme": "General AI",
-      "date": "5 June, 13:30 - 15:00",
-      "audience": "All",
-      "format": "In-person",
-      "experience": "Open to all",
-      "tags": ""
-    },
-    {
-      "title": "Exploring AI Foundations: Understanding today's AI in historical context: History of AI until 2017",
-      "link": "https://oerc.ox.ac.uk/ai-centre/ai-centre-trainings/exploring-ai-foundations-understanding-todays-ai-in-historical-context-history-of-ai-until-2017",
-      "theme": "General AI",
-      "date": "2 June, 12:00 - 13:30",
-      "audience": "All",
-      "format": "Online",
-      "experience": "Open to all",
-      "tags": ""
-    },
-    {
-      "title": "Exploring AI Foundations: Understanding Large Language Models through their history: Developments in AI since 2017",
-      "link": "https://oerc.ox.ac.uk/ai-centre/ai-centre-trainings/exploring-ai-foundations-understanding-large-language-models-through-their-history-developments-in-ai-since-2017",
-      "theme": "General AI",
-      "date": "9 June, 12:00 - 13:30",
-      "audience": "All",
-      "format": "Online",
-      "experience": "Open to all",
-      "tags": ""
-    },
-    {
-      "title": "Exploring AI Foundations: Exploring the Impact of AI on Judgement, Expertise and Learning in Historical Context",
-      "link": "https://oerc.ox.ac.uk/ai-centre/ai-centre-trainings/exploring-ai-foundations-exploring-the-impact-of-ai-on-judgement-expertise-and-learning-in-historical-context",
-      "theme": "General AI",
-      "date": "16 June, 12:00 - 13:30",
-      "audience": "All",
-      "format": "Online",
-      "experience": "Open to all",
-      "tags": ""
-    },
-    {
       "title": "Getting Started on your AI Journey in Operations",
       "link": "https://oerc.ox.ac.uk/ai-centre/training-events/workshops-and-webinars/getting-started-on-your-ai-journey-in-operations",
       "theme": "Operations & Admin",
@@ -113,73 +43,33 @@
       "tags": ""
     },
     {
-      "title": "Practical AI Fundamentals: LLM Behaviour, Prompts, and Risk Reduction",
-      "link": "https://oerc.ox.ac.uk/ai-centre/ai-centre-trainings/practical-ai-fundamentals",
+      "title": "What You Don't Know You Don't Know: AI as Your Blind-Spot Detector",
+      "link": "https://unioxfordnexus.sharepoint.com/sites/OXINTRANET-it-digital/SitePages/find-courses-resources.aspx?courseId=CC105&companyID=CompCentre&xsdata=MDV8MDJ8fDI1YWQyZDQ3OTUxOTRjMjUyNjk3MDhkZjEyODkwNGU5fGNjOTVkZTFiOTdmNTRmOTNiNGJhZmU2OGI4NTJjZjkxfDB8MHw2MzkyNTAwNTE4MTIxOTExNzl8VW5rbm93bnxWR1ZoYlhOVFpXTjFjbWwwZVZObGNuWnBZMlY4ZXlKRFFTSTZJbFJsWVcxelgwRlVVRk5sY25acFkyVmZVMUJQVEU5R0lpd2lWaUk2SWpBdU1DNHdNREF3SWl3aVVDSTZJbGRwYmpNeUlpd2lRVTRpT2lKUGRHaGxjaUlzSWxkVUlqb3hNWDA9fDF8TDJOb1lYUnpMekU1T2pZelkyVmtPRFV4TFdVellqRXROREJtWVMwNVpUYzRMVEUyTjJFNE1UVXhaR0UyTmw5aE1UQTRORFV3WVMwME9ERTBMVFF5TVdZdE9ETXpZeTB4WmpGaU5EazJORGd6T1dOQWRXNXhMbWRpYkM1emNHRmpaWE12YldWemMyRm5aWE12TVRjNE9UUXdPRE00TURVd01nPT18MTdmYjQ3YzBhYjM0NDQzNmE4NWUwOGRmMTI4OTA0ZTh8MmY2NjU1MDgxZTU5NDhkOGEyNDk3YWU1NDJmZDFkZTg%3D&sdata=WjVOT3Vmc1RKMzlXWFhaNnNxQVJVRkxUcDRWNmp3WGpiTXBJL0IyWWVZRT0%3D&ovuser=cc95de1b-97f5-4f93-b4ba-fe68b852cf91%2Couit1063%40ox.ac.uk&TeamsCID=9fad6737-4897-45b9-b32f-4ba9864978ff&OR=Teams-HL&CT=1789573556979&clickparams=eyJBcHBOYW1lIjoiVGVhbXMtRGVza3RvcCIsIkFwcFZlcnNpb24iOiI0OS8yNjA4MTMxOTMyMSIsIkhhc0ZlZGVyYXRlZFVzZXIiOmZhbHNlfQ%3D%3D#a067df13-03de-49a6-b20d-5fe445758b25",
       "theme": "Operations & Admin",
-      "date": "28 April, 14:00 - 15:00",
+      "date": "29 September, 14:00 - 15:00",
       "audience": "All",
-      "format": "In-person",
-      "experience": "Open to all",
-      "tags": ""
-    },
-    {
-      "title": "AI and Online Presence",
-      "link": "https://oerc.ox.ac.uk/ai-centre/ai-centre-trainings/ai-and-online-presence",
-      "theme": "Operations & Admin",
-      "date": "6 May, 14:00 - 15:30",
-      "audience": "All",
-      "format": "In-person",
+      "format": "",
       "experience": "Level 2: Sometimes use AI",
       "tags": ""
     },
     {
-      "title": "Thinking About Thinking with AI: Why Self-Knowledge is Your Real Interface",
-      "link": "https://oerc.ox.ac.uk/ai-centre/ai-centre-trainings/thinking-about-thinking-with-ai-why-self-knowledge-is-your-real-interface",
+      "title": "Two Ways to Use AI: For Better or For Worse",
+      "link": "https://unioxfordnexus.sharepoint.com/sites/OXINTRANET-it-digital/SitePages/find-courses-resources.aspx?courseId=CC093&companyID=CompCentre&xsdata=MDV8MDJ8fDI1YWQyZDQ3OTUxOTRjMjUyNjk3MDhkZjEyODkwNGU5fGNjOTVkZTFiOTdmNTRmOTNiNGJhZmU2OGI4NTJjZjkxfDB8MHw2MzkyNTAwNTE4MTIxMTk5MzV8VW5rbm93bnxWR1ZoYlhOVFpXTjFjbWwwZVZObGNuWnBZMlY4ZXlKRFFTSTZJbFJsWVcxelgwRlVVRk5sY25acFkyVmZVMUJQVEU5R0lpd2lWaUk2SWpBdU1DNHdNREF3SWl3aVVDSTZJbGRwYmpNeUlpd2lRVTRpT2lKUGRHaGxjaUlzSWxkVUlqb3hNWDA9fDF8TDJOb1lYUnpMekU1T2pZelkyVmtPRFV4TFdVellqRXROREJtWVMwNVpUYzRMVEUyTjJFNE1UVXhaR0UyTmw5aE1UQTRORFV3WVMwME9ERTBMVFF5TVdZdE9ETXpZeTB4WmpGaU5EazJORGd6T1dOQWRXNXhMbWRpYkM1emNHRmpaWE12YldWemMyRm5aWE12TVRjNE9UUXdPRE00TURVd01nPT18MTdmYjQ3YzBhYjM0NDQzNmE4NWUwOGRmMTI4OTA0ZTh8MmY2NjU1MDgxZTU5NDhkOGEyNDk3YWU1NDJmZDFkZTg%3D&sdata=bVhvSUF0TVVaWDM4ZGFmeUVtdThwNkZXVysySE1hNE41RTdoVG5tOFV4dz0%3D&ovuser=cc95de1b-97f5-4f93-b4ba-fe68b852cf91%2Couit1063%40ox.ac.uk&TeamsCID=00dfb0c1-658d-410c-b29b-81512dadc122&OR=Teams-HL&CT=1789573522472&clickparams=eyJBcHBOYW1lIjoiVGVhbXMtRGVza3RvcCIsIkFwcFZlcnNpb24iOiI0OS8yNjA4MTMxOTMyMSIsIkhhc0ZlZGVyYXRlZFVzZXIiOmZhbHNlfQ%3D%3D#a067df13-03de-49a6-b20d-5fe445758b25",
       "theme": "Operations & Admin",
-      "date": "6 May, 14:00 - 15:30",
+      "date": "30 September, 14:00 - 16:00",
       "audience": "All",
-      "format": "In-person",
-      "experience": "Open to all",
-      "tags": ""
-    },
-    {
-      "title": "10 Truths About AI That Will Stand the Test of Time",
-      "link": "https://oerc.ox.ac.uk/ai-centre/ai-centre-trainings/10-truths-about-ai-that-will-stand-the-test-of-time",
-      "theme": "Operations & Admin",
-      "date": "13 May, 14:00 - 15:30",
-      "audience": "All",
-      "format": "In-person",
-      "experience": "Open to all",
-      "tags": ""
-    },
-    {
-      "title": "Revealing Unknown Unknowns: How to Use ChatGPT as a Strategic Mirror",
-      "link": "https://oerc.ox.ac.uk/ai-centre/ai-centre-trainings/revealing-unknown-unknowns",
-      "theme": "Operations & Admin",
-      "date": "28 May, 14:00 - 15:30",
-      "audience": "All",
-      "format": "In-person",
-      "experience": "Level 2: Sometimes use AI",
-      "tags": ""
-    },
-    {
-      "title": "Building a relationship with AI",
-      "link": "https://oerc.ox.ac.uk/ai-centre/ai-centre-trainings/building-a-relationship-with-ai",
-      "theme": "Operations & Admin",
-      "date": "9 June, 11:00 - 12:00",
-      "audience": "All",
-      "format": "Online",
+      "format": "",
       "experience": "Level 2: Sometimes use AI",
       "tags": ""
     },
     {
       "title": "Transferable skills for working with AI",
-      "link": "https://oerc.ox.ac.uk/ai-centre/ai-centre-trainings/transferable-skills-for-working-with-ai",
+      "link": "https://unioxfordnexus.sharepoint.com/sites/OXINTRANET-it-digital/SitePages/find-courses-resources.aspx?courseId=CC092&companyID=CompCentre&xsdata=MDV8MDJ8fDI1YWQyZDQ3OTUxOTRjMjUyNjk3MDhkZjEyODkwNGU5fGNjOTVkZTFiOTdmNTRmOTNiNGJhZmU2OGI4NTJjZjkxfDB8MHw2MzkyNTAwNTE4MTIyMzgzNjB8VW5rbm93bnxWR1ZoYlhOVFpXTjFjbWwwZVZObGNuWnBZMlY4ZXlKRFFTSTZJbFJsWVcxelgwRlVVRk5sY25acFkyVmZVMUJQVEU5R0lpd2lWaUk2SWpBdU1DNHdNREF3SWl3aVVDSTZJbGRwYmpNeUlpd2lRVTRpT2lKUGRHaGxjaUlzSWxkVUlqb3hNWDA9fDF8TDJOb1lYUnpMekU1T2pZelkyVmtPRFV4TFdVellqRXROREJtWVMwNVpUYzRMVEUyTjJFNE1UVXhaR0UyTmw5aE1UQTRORFV3WVMwME9ERTBMVFF5TVdZdE9ETXpZeTB4WmpGaU5EazJORGd6T1dOQWRXNXhMbWRpYkM1emNHRmpaWE12YldWemMyRm5aWE12TVRjNE9UUXdPRE00TURVd01nPT18MTdmYjQ3YzBhYjM0NDQzNmE4NWUwOGRmMTI4OTA0ZTh8MmY2NjU1MDgxZTU5NDhkOGEyNDk3YWU1NDJmZDFkZTg%3D&sdata=RjIvYlZ5bVFCeStJT0VhT0w5dTlUd3hRdlNuUWJkaGV1NzNqMjNEajYvUT0%3D&ovuser=cc95de1b-97f5-4f93-b4ba-fe68b852cf91%2Couit1063%40ox.ac.uk&TeamsCID=60770dde-a739-4738-8441-d3ee9eeb956b&OR=Teams-HL&CT=1789573563707&clickparams=eyJBcHBOYW1lIjoiVGVhbXMtRGVza3RvcCIsIkFwcFZlcnNpb24iOiI0OS8yNjA4MTMxOTMyMSIsIkhhc0ZlZGVyYXRlZFVzZXIiOmZhbHNlfQ%3D%3D#a067df13-03de-49a6-b20d-5fe445758b25",
       "theme": "Operations & Admin",
-      "date": "18 June, 10:00 - 12:00",
+      "date": "6 October, 14:00 - 16:00",
       "audience": "All",
-      "format": "In-person",
-      "experience": "Level 1: Never used AI",
+      "format": "",
+      "experience": "Level 2: Sometimes use AI",
       "tags": ""
     },
     {
@@ -193,105 +83,34 @@
       "tags": ""
     },
     {
-      "title": "AI in the Writing Process: Rethinking Authorship and Assessment",
-      "link": "https://oerc.ox.ac.uk/ai-centre/ai-centre-trainings/ai-in-the-writing-process-rethinking-authorship-and-assessment",
-      "theme": "Teaching & Education",
-      "date": "30 April, 14:00 - 15:30",
-      "audience": "Educators",
-      "format": "In-person",
-      "experience": "Level 2: Sometimes use AI",
-      "tags": ""
-    },
-    {
-      "title": "Beyond Detection: Navigating AI Tools and Ethical Practice in Education",
-      "link": "https://oerc.ox.ac.uk/ai-centre/ai-centre-trainings/beyond-detection-navigating-ai-tools-and-ethical-practice-in-education",
-      "theme": "Teaching & Education",
-      "date": "5 May, 11:00 - 12:30",
-      "audience": "Educators",
-      "format": "Online",
-      "experience": "Level 2: Sometimes use AI",
-      "tags": ""
-    },
-    {
       "title": "Protecting Learning: Guiding students to avoid cheating themselves with AI",
-      "link": "https://oerc.ox.ac.uk/ai-centre/ai-centre-trainings/protecting-learning",
+      "link": "https://unioxfordnexus.sharepoint.com/sites/OXINTRANET-it-digital/SitePages/find-courses-resources.aspx?courseId=CC064&companyID=CompCentre&xsdata=MDV8MDJ8fDI1YWQyZDQ3OTUxOTRjMjUyNjk3MDhkZjEyODkwNGU5fGNjOTVkZTFiOTdmNTRmOTNiNGJhZmU2OGI4NTJjZjkxfDB8MHw2MzkyNTAwNTE4MTIxNzExMDF8VW5rbm93bnxWR1ZoYlhOVFpXTjFjbWwwZVZObGNuWnBZMlY4ZXlKRFFTSTZJbFJsWVcxelgwRlVVRk5sY25acFkyVmZVMUJQVEU5R0lpd2lWaUk2SWpBdU1DNHdNREF3SWl3aVVDSTZJbGRwYmpNeUlpd2lRVTRpT2lKUGRHaGxjaUlzSWxkVUlqb3hNWDA9fDF8TDJOb1lYUnpMekU1T2pZelkyVmtPRFV4TFdVellqRXROREJtWVMwNVpUYzRMVEUyTjJFNE1UVXhaR0UyTmw5aE1UQTRORFV3WVMwME9ERTBMVFF5TVdZdE9ETXpZeTB4WmpGaU5EazJORGd6T1dOQWRXNXhMbWRpYkM1emNHRmpaWE12YldWemMyRm5aWE12TVRjNE9UUXdPRE00TURVd01nPT18MTdmYjQ3YzBhYjM0NDQzNmE4NWUwOGRmMTI4OTA0ZTh8MmY2NjU1MDgxZTU5NDhkOGEyNDk3YWU1NDJmZDFkZTg%3D&sdata=emt2S2FHU2F5bnFqTHQwOG42d2t4MFh0bDBMRHJId2g4Z3UyRGIwM1NqRT0%3D&ovuser=cc95de1b-97f5-4f93-b4ba-fe68b852cf91%2Couit1063%40ox.ac.uk&TeamsCID=269a08fb-186e-48c7-8dc0-95a49ccf36af&OR=Teams-HL&CT=1789573532946&clickparams=eyJBcHBOYW1lIjoiVGVhbXMtRGVza3RvcCIsIkFwcFZlcnNpb24iOiI0OS8yNjA4MTMxOTMyMSIsIkhhc0ZlZGVyYXRlZFVzZXIiOmZhbHNlfQ%3D%3D#a067df13-03de-49a6-b20d-5fe445758b25",
       "theme": "Teaching & Education",
-      "date": "7 May, 10:30 - 12:00",
+      "date": "23 September, 13:00 - 15:00",
       "audience": "Educators",
-      "format": "In-person",
-      "experience": "Level 2: Sometimes use AI",
-      "tags": ""
-    },
-    {
-      "title": "From Zero to App Development with Generative AI",
-      "link": "https://oerc.ox.ac.uk/ai-centre/ai-centre-trainings/from-zero-to-app-development-with-generative-ai",
-      "theme": "Coding & Development",
-      "date": "14 April, 10:00 - 11:30",
-      "audience": "All",
-      "format": "Online",
-      "experience": "Level 2: Sometimes use AI",
-      "tags": ""
-    },
-    {
-      "title": "Using AI Agents Workshops: Using coding agents for project management: Introduction to non-programmers",
-      "link": "https://oerc.ox.ac.uk/ai-centre/ai-centre-trainings/using-ai-agents-workshops-using-coding-agents-for-project-management-introduction-to-non-programmers",
-      "theme": "Coding & Development",
-      "date": "12 June, 10:00 - 13:00",
-      "audience": "All",
-      "format": "In-person",
-      "experience": "Level 2: Sometimes use AI",
-      "tags": ""
-    },
-    {
-      "title": "Using AI Agents Workshops: Using coding agents for working with research data and managing the research process: Introduction to non-programmers",
-      "link": "https://oerc.ox.ac.uk/ai-centre/ai-centre-trainings/using-ai-agents-workshops-using-coding-agents-for-working-with-research-data-and-managing-the-research-process-introduction-to-non-programmers",
-      "theme": "Coding & Development",
-      "date": "19 June, 10:00 - 13:00",
-      "audience": "All",
-      "format": "In-person",
-      "experience": "Level 2: Sometimes use AI",
-      "tags": ""
-    },
-    {
-      "title": "Getting started with Codex",
-      "link": "https://oerc.ox.ac.uk/ai-centre/ai-centre-trainings/getting-started-with-codex",
-      "theme": "Coding & Development",
-      "date": "23 June, 14:00 - 15:00",
-      "audience": "All",
-      "format": "Online",
-      "experience": "Level 3: Use AI on a daily basis",
-      "tags": ""
-    },
-    {
-      "title": "Inside the Google Agent Stack: A Deep Dive into Google agent Visual Builder , Agent Garden, and Web ADK",
-      "link": "https://oerc.ox.ac.uk/ai-centre/ai-centre-trainings/inside-the-google-agent-stack",
-      "theme": "Coding & Development",
-      "date": "2 July, 10:00 - 12:00",
-      "audience": "All",
-      "format": "Online",
-      "experience": "Level 2: Sometimes use AI",
-      "tags": ""
-    },
-    {
-      "title": "AI and Research: From Personal Productivity to Building Your Own Tools",
-      "link": "https://oerc.ox.ac.uk/ai-centre/ai-centre-trainings/ai-for-researchers",
-      "theme": "Research",
-      "date": "Next date to be confirmed",
-      "audience": "Researchers",
-      "format": "In-person",
-      "experience": "Level 2: Sometimes use AI",
-      "tags": ""
-    },
-    {
-      "title": "Copilot Discovery sessions for professional services",
-      "link": "https://oerc.ox.ac.uk/ai-centre/training-events/workshops-and-webinars/copilot-discovery-sessions-for-professional-services-staff",
-      "theme": "General AI",
-      "date": "Every other Wednesday from 25 March, 13:00 - 14:00",
-      "audience": "All",
       "format": "",
       "experience": "Level 2: Sometimes use AI",
-      "tags": "",
-      "training_provider": "Digital Innovation and Microsoft"
+      "tags": ""
+    },
+    {
+      "title": "Getting Started With ChatGPT Work and Codex: Online",
+      "link": "https://unioxfordnexus.sharepoint.com/sites/OXINTRANET-it-digital/SitePages/find-courses-resources.aspx?courseId=CC103&companyID=CompCentre&xsdata=MDV8MDJ8fDI1YWQyZDQ3OTUxOTRjMjUyNjk3MDhkZjEyODkwNGU5fGNjOTVkZTFiOTdmNTRmOTNiNGJhZmU2OGI4NTJjZjkxfDB8MHw2MzkyNTAwNTE4MTIxNDY4ODd8VW5rbm93bnxWR1ZoYlhOVFpXTjFjbWwwZVZObGNuWnBZMlY4ZXlKRFFTSTZJbFJsWVcxelgwRlVVRk5sY25acFkyVmZVMUJQVEU5R0lpd2lWaUk2SWpBdU1DNHdNREF3SWl3aVVDSTZJbGRwYmpNeUlpd2lRVTRpT2lKUGRHaGxjaUlzSWxkVUlqb3hNWDA9fDF8TDJOb1lYUnpMekU1T2pZelkyVmtPRFV4TFdVellqRXROREJtWVMwNVpUYzRMVEUyTjJFNE1UVXhaR0UyTmw5aE1UQTRORFV3WVMwME9ERTBMVFF5TVdZdE9ETXpZeTB4WmpGaU5EazJORGd6T1dOQWRXNXhMbWRpYkM1emNHRmpaWE12YldWemMyRm5aWE12TVRjNE9UUXdPRE00TURVd01nPT18MTdmYjQ3YzBhYjM0NDQzNmE4NWUwOGRmMTI4OTA0ZTh8MmY2NjU1MDgxZTU5NDhkOGEyNDk3YWU1NDJmZDFkZTg%3D&sdata=VUpFUHl1RlZFMGQ0WUxCYVlzNFBNaVEwSWZMUVNlMGlad3IraHVtYW1xOD0%3D&ovuser=cc95de1b-97f5-4f93-b4ba-fe68b852cf91%2Couit1063%40ox.ac.uk&TeamsCID=c6904aeb-e4b8-48ed-b588-b5bf03c8e0a4&OR=Teams-HL&CT=1789573529215&clickparams=eyJBcHBOYW1lIjoiVGVhbXMtRGVza3RvcCIsIkFwcFZlcnNpb24iOiI0OS8yNjA4MTMxOTMyMSIsIkhhc0ZlZGVyYXRlZFVzZXIiOmZhbHNlfQ%3D%3D#a067df13-03de-49a6-b20d-5fe445758b25",
+      "theme": "Coding & Development",
+      "date": "22 September, 14:00 - 15:00",
+      "audience": "All",
+      "format": "",
+      "experience": "Level 1: Never used AI",
+      "tags": ""
+    },
+    {
+      "title": "Getting Started With ChatGPT Work and Codex: Hands-On Workshop",
+      "link": "https://unioxfordnexus.sharepoint.com/sites/OXINTRANET-it-digital/SitePages/find-courses-resources.aspx?courseId=CC107&companyID=CompCentre&xsdata=MDV8MDJ8fDI1YWQyZDQ3OTUxOTRjMjUyNjk3MDhkZjEyODkwNGU5fGNjOTVkZTFiOTdmNTRmOTNiNGJhZmU2OGI4NTJjZjkxfDB8MHw2MzkyNTAwNTE4MTIyMTEyNjd8VW5rbm93bnxWR1ZoYlhOVFpXTjFjbWwwZVZObGNuWnBZMlY4ZXlKRFFTSTZJbFJsWVcxelgwRlVVRk5sY25acFkyVmZVMUJQVEU5R0lpd2lWaUk2SWpBdU1DNHdNREF3SWl3aVVDSTZJbGRwYmpNeUlpd2lRVTRpT2lKUGRHaGxjaUlzSWxkVUlqb3hNWDA9fDF8TDJOb1lYUnpMekU1T2pZelkyVmtPRFV4TFdVellqRXROREJtWVMwNVpUYzRMVEUyTjJFNE1UVXhaR0UyTmw5aE1UQTRORFV3WVMwME9ERTBMVFF5TVdZdE9ETXpZeTB4WmpGaU5EazJORGd6T1dOQWRXNXhMbWRpYkM1emNHRmpaWE12YldWemMyRm5aWE12TVRjNE9UUXdPRE00TURVd01nPT18MTdmYjQ3YzBhYjM0NDQzNmE4NWUwOGRmMTI4OTA0ZTh8MmY2NjU1MDgxZTU5NDhkOGEyNDk3YWU1NDJmZDFkZTg%3D&sdata=Zms0KzNwMmdVRGdRWVpQK3ZMNVB2aStwWlhsRmNlRTZxeStUajNZR3hQZz0%3D&ovuser=cc95de1b-97f5-4f93-b4ba-fe68b852cf91%2Couit1063%40ox.ac.uk&TeamsCID=a58d3b12-7f64-41bc-a945-a14cf3d8c408&OR=Teams-HL&CT=1789573559782&clickparams=eyJBcHBOYW1lIjoiVGVhbXMtRGVza3RvcCIsIkFwcFZlcnNpb24iOiI0OS8yNjA4MTMxOTMyMSIsIkhhc0ZlZGVyYXRlZFVzZXIiOmZhbHNlfQ%3D%3D#a067df13-03de-49a6-b20d-5fe445758b25",
+      "theme": "Coding & Development",
+      "date": "1 October, 13:00 - 16:00",
+      "audience": "All",
+      "format": "",
+      "experience": "Level 1: Never used AI",
+      "tags": ""
     }
   ]
 }
